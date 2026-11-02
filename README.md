@@ -6,6 +6,11 @@ Pedido de Venda em Delphi com FireDAC e Firebird, organizado em camadas (View, C
 
 O passo a passo da construção, com o que foi feito e o que falta em cada etapa, está em [`doc/trilha.html`](doc/trilha.html). Para ver formatado, baixe o arquivo e abra no navegador.
 
+## Vídeos
+
+- **Como rodar o projeto** (instalar o Firebird, criar o banco, configurar e executar): link em breve
+- **Demonstração e explicação dos fontes** (o sistema funcionando e as camadas do código): link em breve
+
 ## Requisitos
 
 - Windows 10 ou 11 (64 bits)
