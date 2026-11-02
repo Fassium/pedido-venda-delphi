@@ -433,6 +433,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
     Top = 288
     object mtListaNUMERO_PEDIDO: TLargeintField
       DisplayLabel = 'N'#186' Pedido'
+      DisplayWidth = 10
       FieldName = 'NUMERO_PEDIDO'
     end
     object mtListaDATA_EMISSAO: TDateField
