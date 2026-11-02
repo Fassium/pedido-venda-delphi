@@ -12,6 +12,7 @@ type
     FNumeroPedido: Int64;
     FDataEmissao: TDate;
     FCodigoCliente: Integer;
+    FObservacao: string;
     FItens: TObjectList<TPedidoItem>;
     function GetValorTotal: Currency;
   public
@@ -20,6 +21,7 @@ type
     property NumeroPedido: Int64 read FNumeroPedido write FNumeroPedido;
     property DataEmissao: TDate read FDataEmissao write FDataEmissao;
     property CodigoCliente: Integer read FCodigoCliente write FCodigoCliente;
+    property Observacao: string read FObservacao write FObservacao;
     property Itens: TObjectList<TPedidoItem> read FItens;
     property ValorTotal: Currency read GetValorTotal;
   end;

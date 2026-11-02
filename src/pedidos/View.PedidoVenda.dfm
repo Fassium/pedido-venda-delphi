@@ -157,7 +157,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
           Left = 16
           Top = 16
           Width = 968
-          Height = 65
+          Height = 115
           Align = alTop
           BevelOuter = bvNone
           ParentBackground = False
@@ -206,6 +206,13 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 15
             Caption = 'UF'
             FocusControl = edtUFCliente
+          end
+          object lblObservacao: TLabel
+            Left = 0
+            Top = 58
+            Height = 15
+            Caption = '&Observa'#231#227'o'
+            FocusControl = edtObservacao
           end
           object edtNumeroPedido: TEdit
             Left = 0
@@ -264,10 +271,18 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             ReadOnly = True
             TabOrder = 5
           end
+          object edtObservacao: TEdit
+            Left = 0
+            Top = 76
+            Width = 820
+            Height = 23
+            MaxLength = 200
+            TabOrder = 6
+          end
         end
         object pnlItem: TPanel
           Left = 16
-          Top = 81
+          Top = 131
           Width = 968
           Height = 65
           Align = alTop
@@ -352,9 +367,9 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
         end
         object grdItens: TStringGrid
           Left = 16
-          Top = 146
+          Top = 196
           Width = 968
-          Height = 388
+          Height = 338
           Align = alClient
           ColCount = 5
           FixedCols = 0

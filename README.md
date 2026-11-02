@@ -80,16 +80,17 @@ Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.d
 8. Selecione uma linha do grid e aperte **ENTER**: os campos são carregados e o botão vira **Atualizar Item**. Mude a quantidade e confirme: a mesma linha é alterada.
 9. Selecione uma linha e aperte **DEL**: confirme e veja a linha sair e o total ser recalculado na hora.
 
-**Gravar (2.6)**
+**Gravar (2.6 e 4.1)**
 
 10. Clique em **Gravar Pedido** sem cliente: aviso e foco no Cliente. Com cliente e sem itens: aviso e foco no Produto.
 11. Com cliente e itens, clique em **Gravar Pedido**: aparece "Pedido N gravado com sucesso." e a lista mostra o pedido com o nome do cliente e o total.
-12. Na lista, filtre pelo número do pedido ou por parte do nome do cliente e aperte Enter.
+12. Grave um pedido com **Observação** e outro com ela em branco. Confira no banco: `SELECT NUMERO_PEDIDO, OBSERVACAO FROM PEDIDO` mostra o texto no primeiro e `NULL` no segundo.
+13. Na lista, filtre pelo número do pedido ou por parte do nome do cliente e aperte Enter.
 
 **Descartar e sair**
 
-13. Em um pedido, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
-14. Na lista, clique em **Sair**: confirmação para fechar a tela.
+14. Em um pedido, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
+15. Na lista, clique em **Sair**: confirmação para fechar a tela.
 
 > O número do pedido vem de uma sequence: é crescente, mas pode pular números quando uma gravação é desfeita (rollback), porque a sequence não volta atrás.
 

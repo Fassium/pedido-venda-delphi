@@ -37,6 +37,8 @@ type
     edtNomeCliente: TEdit;
     edtCidadeCliente: TEdit;
     edtUFCliente: TEdit;
+    lblObservacao: TLabel;
+    edtObservacao: TEdit;
     pnlItem: TPanel;
     lblCodigoProduto: TLabel;
     lblDescricaoProduto: TLabel;
@@ -174,6 +176,7 @@ begin
   edtNumeroPedido.Clear;
   edtDataEmissao.Clear;
   edtCodigoCliente.Clear;
+  edtObservacao.Clear;
   LimparCliente;
   LimparItem;
   ExibirItens;
@@ -486,6 +489,8 @@ begin
   // Mesmo motivo do Alt+I: o atalho Alt+G não dispara o OnExit do código do cliente.
   if Trim(edtCodigoCliente.Text) <> IntToStr(FPedido.CodigoCliente) then
     edtCodigoClienteExit(edtCodigoCliente);
+
+  FPedido.Observacao := Trim(edtObservacao.Text);
 
   try
     FController.Gravar(FPedido);

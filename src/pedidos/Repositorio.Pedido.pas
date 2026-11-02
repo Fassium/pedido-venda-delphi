@@ -42,12 +42,18 @@ begin
   try
     LConsulta.Connection := FConexao;
     LConsulta.SQL.Text :=
-      'INSERT INTO PEDIDO (NUMERO_PEDIDO, DATA_EMISSAO, CODIGO_CLIENTE, VALOR_TOTAL) ' +
-      'VALUES (NEXT VALUE FOR SEQ_PEDIDO_NUMERO, :DATA_EMISSAO, :CODIGO_CLIENTE, :VALOR_TOTAL) ' +
+      'INSERT INTO PEDIDO (NUMERO_PEDIDO, DATA_EMISSAO, CODIGO_CLIENTE, VALOR_TOTAL, OBSERVACAO) ' +
+      'VALUES (NEXT VALUE FOR SEQ_PEDIDO_NUMERO, :DATA_EMISSAO, :CODIGO_CLIENTE, :VALOR_TOTAL, :OBSERVACAO) ' +
       'RETURNING NUMERO_PEDIDO';
     LConsulta.ParamByName('DATA_EMISSAO').AsDate := APedido.DataEmissao;
     LConsulta.ParamByName('CODIGO_CLIENTE').AsInteger := APedido.CodigoCliente;
     LConsulta.ParamByName('VALOR_TOTAL').AsCurrency := APedido.ValorTotal;
+
+    // Observação em branco vai como NULL: "não informada", e não um texto vazio.
+    LConsulta.ParamByName('OBSERVACAO').AsString := APedido.Observacao;
+    if APedido.Observacao = '' then
+      LConsulta.ParamByName('OBSERVACAO').Clear;
+
     LConsulta.Open;
 
     APedido.NumeroPedido := LConsulta.FieldByName('NUMERO_PEDIDO').AsLargeInt;
