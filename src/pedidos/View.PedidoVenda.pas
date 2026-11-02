@@ -66,12 +66,15 @@ type
     procedure btnDescartarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure edtCodigoClienteExit(Sender: TObject);
+    procedure edtCodigoProdutoExit(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
     FPedido: TPedido;
+    FCodigoProdutoExibido: Integer;
     procedure LimparPedido;
     procedure LimparCliente;
+    procedure LimparProduto;
   public
     { Public declarations }
   end;
@@ -81,7 +84,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Model.Cliente, Servico.Pedido;
+  Model.Cliente, Model.Produto, Servico.Pedido;
 
 procedure TFrmPedidoVenda.FormCreate(Sender: TObject);
 begin
@@ -142,13 +145,10 @@ begin
   edtNumeroPedido.Clear;
   edtDataEmissao.Clear;
   edtCodigoCliente.Clear;
-  edtNomeCliente.Clear;
-  edtCidadeCliente.Clear;
-  edtUFCliente.Clear;
+  LimparCliente;
   edtCodigoProduto.Clear;
-  edtDescricaoProduto.Clear;
   edtQuantidade.Clear;
-  edtValorUnitario.Clear;
+  LimparProduto;
 
   grdItens.RowCount := 2;
   grdItens.Rows[1].Clear;
@@ -202,6 +202,62 @@ begin
   edtNomeCliente.Clear;
   edtCidadeCliente.Clear;
   edtUFCliente.Clear;
+
+end;
+
+procedure TFrmPedidoVenda.edtCodigoProdutoExit(Sender: TObject);
+var
+  LCodigo: Integer;
+  LProduto: TProduto;
+begin
+
+  if Trim(edtCodigoProduto.Text) = '' then
+  begin
+    LimparProduto;
+    Exit;
+  end;
+
+  if not TryStrToInt(edtCodigoProduto.Text, LCodigo) then
+  begin
+    LimparProduto;
+    MessageDlg('Código do produto inválido.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
+  if LCodigo = FCodigoProdutoExibido then
+    Exit;
+
+  LimparProduto;
+
+  try
+    LProduto := FController.BuscarProduto(LCodigo);
+  except
+    on E: EValidacao do
+    begin
+      MessageDlg(E.Message, mtWarning, [mbOK], 0);
+      Exit;
+    end;
+  end;
+
+  try
+    FCodigoProdutoExibido := LProduto.Codigo;
+    edtDescricaoProduto.Text := LProduto.Descricao;
+    edtValorUnitario.Text := FormatFloat('0.00', LProduto.PrecoVenda);
+
+    if Trim(edtQuantidade.Text) = '' then
+      edtQuantidade.Text := '1';
+  finally
+    LProduto.Free;
+  end;
+
+end;
+
+procedure TFrmPedidoVenda.LimparProduto;
+begin
+
+  FCodigoProdutoExibido := 0;
+  edtDescricaoProduto.Clear;
+  edtValorUnitario.Clear;
 
 end;
 

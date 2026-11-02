@@ -310,6 +310,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 23
             NumbersOnly = True
             TabOrder = 0
+            OnExit = edtCodigoProdutoExit
           end
           object edtDescricaoProduto: TEdit
             Left = 88
