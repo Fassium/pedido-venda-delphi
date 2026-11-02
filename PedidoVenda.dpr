@@ -13,8 +13,7 @@ uses
   Vcl.Styles,
   Winapi.Windows,
   System.SysUtils,
-  System.UITypes,
-  Model.Pedido in 'src\pedidos\Model.Pedido.pas';
+  System.UITypes;
 
 {$R *.res}
 
