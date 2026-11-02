@@ -127,6 +127,10 @@ end;
 procedure TFrmPedidoVenda.btnDescartarClick(Sender: TObject);
 begin
 
+  if MessageDlg('Descartar o pedido? Tudo o que foi lançado será perdido.',
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) <> mrYes then
+    Exit;
+
   FreeAndNil(FPedido);
   cpnPedido.ActiveCard := crdLista;
 
@@ -134,6 +138,10 @@ end;
 
 procedure TFrmPedidoVenda.btnSairClick(Sender: TObject);
 begin
+
+  if MessageDlg('Deseja sair do Pedido de Venda?',
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) <> mrYes then
+    Exit;
 
   Close;
 
