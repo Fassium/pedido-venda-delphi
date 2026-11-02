@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Data.DB,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.WinXPanels,
-  View.Base, Controller.Pedido;
+  View.Base, Controller.Pedido, Model.Pedido;
 
 type
   TFrmPedidoVenda = class(TFrmBase)
@@ -62,9 +62,14 @@ type
     dsLista: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnDescartarClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
+    FPedido: TPedido;
+    procedure LimparPedido;
   public
     { Public declarations }
   end;
@@ -75,12 +80,76 @@ implementation
 
 procedure TFrmPedidoVenda.FormCreate(Sender: TObject);
 begin
+
   FController := TControllerPedido.Create(Conexao);
+
+  grdItens.Cells[0, 0] := 'Cód. Produto';
+  grdItens.Cells[1, 0] := 'Descrição';
+  grdItens.Cells[2, 0] := 'Quantidade';
+  grdItens.Cells[3, 0] := 'Vlr. Unitário';
+  grdItens.Cells[4, 0] := 'Vlr. Total';
+
+  cpnPedido.ActiveCard := crdLista;
+
 end;
 
 procedure TFrmPedidoVenda.FormDestroy(Sender: TObject);
 begin
+
+  FPedido.Free;
   FController.Free;
+
+end;
+
+procedure TFrmPedidoVenda.btnNovoClick(Sender: TObject);
+begin
+
+  FPedido.Free;
+  FPedido := TPedido.Create;
+  FPedido.DataEmissao := Date;
+
+  LimparPedido;
+  edtDataEmissao.Text := DateToStr(FPedido.DataEmissao);
+
+  cpnPedido.ActiveCard := crdPedido;
+  edtCodigoCliente.SetFocus;
+
+end;
+
+procedure TFrmPedidoVenda.btnDescartarClick(Sender: TObject);
+begin
+
+  FreeAndNil(FPedido);
+  cpnPedido.ActiveCard := crdLista;
+
+end;
+
+procedure TFrmPedidoVenda.btnSairClick(Sender: TObject);
+begin
+
+  Close;
+
+end;
+
+procedure TFrmPedidoVenda.LimparPedido;
+begin
+
+  edtNumeroPedido.Clear;
+  edtDataEmissao.Clear;
+  edtCodigoCliente.Clear;
+  edtNomeCliente.Clear;
+  edtCidadeCliente.Clear;
+  edtUFCliente.Clear;
+  edtCodigoProduto.Clear;
+  edtDescricaoProduto.Clear;
+  edtQuantidade.Clear;
+  edtValorUnitario.Clear;
+
+  grdItens.RowCount := 2;
+  grdItens.Rows[1].Clear;
+
+  lblValorTotal.Caption := FormatFloat('#,##0.00', FPedido.ValorTotal);
+
 end;
 
 end.

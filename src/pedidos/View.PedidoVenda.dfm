@@ -78,6 +78,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Anchors = [akTop, akRight]
             Caption = '&Novo'
             TabOrder = 2
+            OnClick = btnNovoClick
           end
           object btnEditar: TButton
             Left = 680
@@ -105,6 +106,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Anchors = [akTop, akRight]
             Caption = '&Sair'
             TabOrder = 5
+            OnClick = btnSairClick
           end
         end
         object dbgLista: TDBGrid
@@ -407,6 +409,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Anchors = [akTop, akRight]
             Caption = '&Descartar'
             TabOrder = 1
+            OnClick = btnDescartarClick
           end
         end
       end
