@@ -35,6 +35,7 @@ type
     procedure AbrirTela(const AClasse: TFrmBaseClass; const ATitulo: string);
     procedure TelaFechada(Sender: TObject; var Action: TCloseAction);
     procedure FecharAba(const AAba: TTabSheet);
+    function AbaComAlteracaoNaoGravada: TTabSheet;
   public
     { Public declarations }
     property Conexao: TFDConnection read FConexao write FConexao;
@@ -126,9 +127,45 @@ begin
 
 end;
 
+// As telas ficam vivas nas abas: antes de fechar, avisa se alguma tem dados não gravados e mostra essa aba.
 procedure TFrmPrincipal.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+var
+  LAba: TTabSheet;
 begin
-  CanClose := MessageDlg('Deseja sair do sistema?', mtConfirmation, [mbYes, mbNo], 0) = mrYes;
+
+  LAba := AbaComAlteracaoNaoGravada;
+
+  if LAba = nil then
+  begin
+    CanClose := MessageDlg('Deseja sair do sistema?', mtConfirmation, [mbYes, mbNo], 0) = mrYes;
+    Exit;
+  end;
+
+  pgcTelas.ActivePage := LAba;
+  SelecionarModulo(LAba.Caption);
+
+  CanClose := MessageDlg(Format('A tela %s tem alterações não gravadas, que serão perdidas.', [LAba.Caption]) +
+    sLineBreak + 'Deseja sair do sistema mesmo assim?', mtWarning, [mbYes, mbNo], 0, mbNo) = mrYes;
+
+end;
+
+// Devolve a primeira aba cuja tela tem dados não gravados, ou nil. A aba Início não tem tela (TFrmBase).
+function TFrmPrincipal.AbaComAlteracaoNaoGravada: TTabSheet;
+var
+  LIndice: Integer;
+  LControle: TControl;
+begin
+
+  Result := nil;
+
+  for LIndice := 0 to pgcTelas.PageCount - 1 do
+  begin
+    LControle := pgcTelas.Pages[LIndice].Controls[0];
+
+    if (LControle is TFrmBase) and TFrmBase(LControle).TemAlteracaoNaoGravada then
+      Exit(pgcTelas.Pages[LIndice]);
+  end;
+
 end;
 
 procedure TFrmPrincipal.FormCreate(Sender: TObject);

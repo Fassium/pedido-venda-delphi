@@ -246,13 +246,15 @@
     <li>Sem <code>ON DELETE CASCADE</code>, de propósito: a exclusão fica explícita no código.</li>
     <li><code>RowsAffected = 0</code> (pedido já apagado em outra estação) vira erro, o <code>Rollback</code> desfaz e a lista é recarregada.</li>
   </ul>
+  <p class="commits"><code>82d724b</code></p>
 </article>
 
-<article class="passo pendente">
-  <div class="topo"><h3>11. Acabamento</h3><span class="selo pendente">Se sobrar tempo</span></div>
+<article class="passo feito">
+  <div class="topo"><h3>11. Acabamento</h3><span class="selo feito">Concluído</span></div>
   <ul>
-    <li>Esc para desistir da edição de um item.</li>
-    <li>Aviso ao fechar o sistema com um pedido em edição (<code>CloseQuery</code>).</li>
+    <li>Esc nos campos do item (código, quantidade, valor) desiste do que foi digitado ou da edição da linha; o botão volta para "Inserir Item".</li>
+    <li>Aviso ao fechar o sistema com pedido aberto: <code>TFrmBase.TemAlteracaoNaoGravada</code> (virtual, <code>False</code>) é sobrescrita pela tela do pedido; o <code>CloseQuery</code> da principal percorre as abas, mostra a que tem dados não gravados e pergunta com Não como padrão.</li>
+    <li>A principal não conhece o pedido: só pergunta à tela. Uma tela nova que precise do aviso só sobrescreve o método.</li>
     <li>Feito: largura da coluna Nº Pedido na lista e indentação do <code>.dpr</code>.</li>
   </ul>
 </article>
@@ -264,6 +266,7 @@
     <li>Feito: <code>config.ini.example</code> na raiz, com as mesmas chaves e senha de exemplo.</li>
     <li>Feito: o <code>bin/config.ini</code> era versionado para facilitar a avaliação e saiu do Git (guarda a senha); o README mostra como criá-lo a partir do exemplo.</li>
     <li>Feito: roteiro com a Observação (4.1), o Carregar Pedido e o Cancelar Pedido, e as decisões de apagar e regravar os itens e de não usar <code>ON DELETE CASCADE</code>.</li>
+    <li>Feito: roteiro com o Esc no item e o aviso ao fechar o sistema.</li>
     <li>Falta: roteiro dos testes DUnitX.</li>
   </ul>
 </article>

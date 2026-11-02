@@ -78,6 +78,7 @@ type
     procedure btnGravarPedidoClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnCancelarPedidoClick(Sender: TObject);
+    procedure edtItemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FController: TControllerPedido;
@@ -98,6 +99,7 @@ type
     procedure ExibirPedido;
   public
     { Public declarations }
+    function TemAlteracaoNaoGravada: Boolean; override;
   end;
 
 implementation
@@ -629,6 +631,28 @@ begin
 
   LimparItem;
   ExibirItens;
+
+end;
+
+
+// Esc em qualquer campo do item desiste do que foi digitado (ou da edição da linha) sem mexer no grid.
+procedure TFrmPedidoVenda.edtItemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+
+  if Key = VK_ESCAPE then
+  begin
+    Key := 0;
+    LimparItem;
+    edtCodigoProduto.SetFocus;
+  end;
+
+end;
+
+// Pedido aberto (novo ou em edição) só deixa de existir ao Gravar ou Descartar.
+function TFrmPedidoVenda.TemAlteracaoNaoGravada: Boolean;
+begin
+
+  Result := Assigned(FPedido);
 
 end;
 

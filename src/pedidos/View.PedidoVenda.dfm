@@ -330,6 +330,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             NumbersOnly = True
             TabOrder = 0
             OnExit = edtCodigoProdutoExit
+            OnKeyDown = edtItemKeyDown
           end
           object edtDescricaoProduto: TEdit
             Left = 88
@@ -348,6 +349,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 23
             NumbersOnly = True
             TabOrder = 2
+            OnKeyDown = edtItemKeyDown
           end
           object edtValorUnitario: TEdit
             Left = 534
@@ -356,6 +358,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 23
             Alignment = taRightJustify
             TabOrder = 3
+            OnKeyDown = edtItemKeyDown
           end
           object btnInserirAtualizarItem: TButton
             Left = 642

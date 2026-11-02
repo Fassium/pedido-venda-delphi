@@ -85,28 +85,30 @@ O `bin` já traz o `fbclient.dll` x64 e o runtime do Visual C++ que ele usa, ent
 
 8. Selecione uma linha do grid e aperte **ENTER**: os campos são carregados e o botão vira **Atualizar Item**. Mude a quantidade e confirme: a mesma linha é alterada.
 9. Selecione uma linha e aperte **DEL**: confirme e veja a linha sair e o total ser recalculado na hora.
+10. Carregue uma linha com **ENTER** e aperte **Esc**: os campos do item são limpos, o botão volta para **Inserir Item** e a linha do grid não muda.
 
 **Gravar (2.6 e 4.1)**
 
-10. Clique em **Gravar Pedido** sem cliente: aviso e foco no Cliente. Com cliente e sem itens: aviso e foco no Produto.
-11. Com cliente e itens, clique em **Gravar Pedido**: aparece "Pedido N gravado com sucesso." e a lista mostra o pedido com o nome do cliente e o total.
-12. Grave um pedido com **Observação** e outro com ela em branco: a lista mostra o texto no primeiro e a coluna vazia no segundo (no banco, `SELECT NUMERO_PEDIDO, OBSERVACAO FROM PEDIDO` mostra `NULL`).
-13. Na lista, filtre pelo número do pedido ou por parte do nome do cliente e aperte Enter.
+11. Clique em **Gravar Pedido** sem cliente: aviso e foco no Cliente. Com cliente e sem itens: aviso e foco no Produto.
+12. Com cliente e itens, clique em **Gravar Pedido**: aparece "Pedido N gravado com sucesso." e a lista mostra o pedido com o nome do cliente e o total.
+13. Grave um pedido com **Observação** e outro com ela em branco: a lista mostra o texto no primeiro e a coluna vazia no segundo (no banco, `SELECT NUMERO_PEDIDO, OBSERVACAO FROM PEDIDO` mostra `NULL`).
+14. Na lista, filtre pelo número do pedido ou por parte do nome do cliente e aperte Enter.
 
 **Editar pedido (bônus)**
 
-14. Na lista, selecione um pedido, clique em **Editar** e confirme: o pedido abre com número, data, cliente, observação e itens.
-15. Altere um item, inclua outro, exclua um e mude a observação. Clique em **Gravar Pedido**: a lista mostra o novo total e, editando de novo, as mudanças estão lá. O número e a data de emissão não mudam.
-16. Edite um pedido e clique em **Descartar**: a confirmação pergunta "Descartar as alterações do pedido N?"; respondendo Sim, o pedido continua como estava no banco.
+15. Na lista, selecione um pedido, clique em **Editar** e confirme: o pedido abre com número, data, cliente, observação e itens.
+16. Altere um item, inclua outro, exclua um e mude a observação. Clique em **Gravar Pedido**: a lista mostra o novo total e, editando de novo, as mudanças estão lá. O número e a data de emissão não mudam.
+17. Edite um pedido e clique em **Descartar**: a confirmação pergunta "Descartar as alterações do pedido N?"; respondendo Sim, o pedido continua como estava no banco.
 
 **Cancelar pedido (bônus)**
 
-17. Na lista, selecione um pedido e clique em **Cancelar Pedido**: confirmação com **Não** como padrão. Respondendo Sim, aparece "Pedido N cancelado." e ele sai da lista; no banco, `SELECT * FROM PEDIDO_ITEM WHERE NUMERO_PEDIDO = N` não traz nada.
+18. Na lista, selecione um pedido e clique em **Cancelar Pedido**: confirmação com **Não** como padrão. Respondendo Sim, aparece "Pedido N cancelado." e ele sai da lista; no banco, `SELECT * FROM PEDIDO_ITEM WHERE NUMERO_PEDIDO = N` não traz nada.
 
 **Descartar e sair**
 
-18. Em um pedido novo, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
-19. Na lista, clique em **Sair**: confirmação para fechar a tela.
+19. Em um pedido novo, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
+20. Na lista, clique em **Sair**: confirmação para fechar a tela.
+21. Com um pedido aberto (novo ou em edição), feche o sistema pelo menu **Sair** ou pelo X da janela: aviso de alterações não gravadas, com **Não** como padrão. Respondendo Não, a aba do pedido fica à frente e nada se perde.
 
 > O número do pedido vem de uma sequence: é crescente, mas pode pular números quando uma gravação é desfeita (rollback), porque a sequence não volta atrás.
 
