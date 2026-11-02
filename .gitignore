@@ -79,9 +79,9 @@ __recovery/
 *.stat
 
 # Projeto
-config.ini
 bin/*
 !bin/fbclient.dll
 !bin/msvcp140.dll
 !bin/vcruntime140.dll
 !bin/vcruntime140_1.dll
+!bin/config.ini
