@@ -153,6 +153,7 @@
         <DCCReference Include="src\pedidos\Model.PedidoItem.pas"/>
         <DCCReference Include="src\pedidos\Model.Pedido.pas"/>
         <DCCReference Include="src\clientes\Model.Cliente.pas"/>
+        <DCCReference Include="src\produtos\Model.Produto.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

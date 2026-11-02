@@ -16,7 +16,8 @@ uses
   System.UITypes,
   Model.PedidoItem in 'src\pedidos\Model.PedidoItem.pas',
   Model.Pedido in 'src\pedidos\Model.Pedido.pas',
-  Model.Cliente in 'src\clientes\Model.Cliente.pas';
+  Model.Cliente in 'src\clientes\Model.Cliente.pas',
+  Model.Produto in 'src\produtos\Model.Produto.pas';
 
 {$R *.res}
 
