@@ -19,7 +19,9 @@ uses
   Model.Cliente in 'src\clientes\Model.Cliente.pas',
   Model.Produto in 'src\produtos\Model.Produto.pas',
   Repositorio.Cliente in 'src\clientes\Repositorio.Cliente.pas',
-  Repositorio.Produto in 'src\produtos\Repositorio.Produto.pas';
+  Repositorio.Produto in 'src\produtos\Repositorio.Produto.pas',
+  Servico.Pedido in 'src\pedidos\Servico.Pedido.pas',
+  Controller.Pedido in 'src\pedidos\Controller.Pedido.pas';
 
 {$R *.res}
 
