@@ -60,6 +60,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Width = 300
             Height = 23
             TabOrder = 0
+            OnKeyPress = edtBuscaKeyPress
             TextHint = 'N'#186' do pedido ou nome do cliente'
           end
           object btnBuscar: TButton
@@ -69,6 +70,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 25
             Caption = '&Buscar'
             TabOrder = 1
+            OnClick = btnBuscarClick
           end
           object btnNovo: TButton
             Left = 596
@@ -403,6 +405,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Anchors = [akTop, akRight]
             Caption = '&Gravar Pedido'
             TabOrder = 0
+            OnClick = btnGravarPedidoClick
           end
           object btnDescartar: TButton
             Left = 868

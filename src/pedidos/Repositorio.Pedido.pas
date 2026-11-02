@@ -25,7 +25,7 @@ type
 implementation
 
 uses
-  System.SysUtils, FireDAC.Comp.DataSet, Model.PedidoItem;
+  System.SysUtils, Data.DB, FireDAC.Comp.DataSet, Model.PedidoItem;
 
 constructor TRepositorioPedido.Create(const AConexao: TFDConnection);
 begin
@@ -71,6 +71,10 @@ begin
       'INSERT INTO PEDIDO_ITEM (NUMERO_PEDIDO, CODIGO_PRODUTO, QUANTIDADE, VLR_UNITARIO, VLR_TOTAL) ' +
       'VALUES (:NUMERO_PEDIDO, :CODIGO_PRODUTO, :QUANTIDADE, :VLR_UNITARIO, :VLR_TOTAL) ' +
       'RETURNING ID';
+
+    // Sem isso o Prepare pega o tipo do banco (NUMERIC = FMTBcd) e o AsCurrency depois gera o erro -338.
+    LConsulta.ParamByName('VLR_UNITARIO').DataType := ftCurrency;
+    LConsulta.ParamByName('VLR_TOTAL').DataType := ftCurrency;
     LConsulta.Prepare;
 
     for LItem in APedido.Itens do

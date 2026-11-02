@@ -70,6 +70,9 @@ type
     procedure btnInserirAtualizarItemClick(Sender: TObject);
     procedure grdItensDblClick(Sender: TObject);
     procedure grdItensKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnBuscarClick(Sender: TObject);
+    procedure edtBuscaKeyPress(Sender: TObject; var Key: Char);
+    procedure btnGravarPedidoClick(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
@@ -84,6 +87,7 @@ type
     function IndiceItemSelecionado: Integer;
     procedure CarregarItemSelecionado;
     procedure ExcluirItemSelecionado;
+    procedure CarregarLista;
   public
     { Public declarations }
   end;
@@ -113,6 +117,7 @@ begin
   grdItens.ColWidths[4] := 110;
 
   cpnPedido.ActiveCard := crdLista;
+  CarregarLista;
 
 end;
 
@@ -446,6 +451,61 @@ begin
 
   FPedido.Itens.Delete(LIndice);
   ExibirItens;
+
+end;
+
+procedure TFrmPedidoVenda.btnBuscarClick(Sender: TObject);
+begin
+
+  CarregarLista;
+
+end;
+
+procedure TFrmPedidoVenda.edtBuscaKeyPress(Sender: TObject; var Key: Char);
+begin
+
+  if Key = #13 then
+  begin
+    Key := #0;
+    CarregarLista;
+  end;
+
+end;
+
+procedure TFrmPedidoVenda.CarregarLista;
+begin
+
+  FController.Listar(edtBusca.Text, mtLista);
+
+end;
+
+procedure TFrmPedidoVenda.btnGravarPedidoClick(Sender: TObject);
+begin
+
+  // Mesmo motivo do Alt+I: o atalho Alt+G não dispara o OnExit do código do cliente.
+  if Trim(edtCodigoCliente.Text) <> IntToStr(FPedido.CodigoCliente) then
+    edtCodigoClienteExit(edtCodigoCliente);
+
+  try
+    FController.Gravar(FPedido);
+  except
+    on E: EValidacao do
+    begin
+      MessageDlg(E.Message, mtWarning, [mbOK], 0);
+      Exit;
+    end;
+    on E: Exception do
+    begin
+      MessageDlg('Não foi possível gravar o pedido.' + sLineBreak + E.Message, mtError, [mbOK], 0);
+      Exit;
+    end;
+  end;
+
+  MessageDlg(Format('Pedido %d gravado com sucesso.', [FPedido.NumeroPedido]), mtInformation, [mbOK], 0);
+
+  FreeAndNil(FPedido);
+  CarregarLista;
+  cpnPedido.ActiveCard := crdLista;
 
 end;
 
