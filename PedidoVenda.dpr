@@ -8,6 +8,7 @@ uses
   View.Login in 'src\autenticacao\View.Login.pas' {FrmLogin},
   Servico.Autenticacao in 'src\autenticacao\Servico.Autenticacao.pas',
   View.Base in 'src\comum\View.Base.pas' {FrmBase},
+  View.PedidoVenda in 'src\pedidos\View.PedidoVenda.pas' {FrmPedidoVenda},
   Vcl.Themes,
   Vcl.Styles,
   Winapi.Windows,

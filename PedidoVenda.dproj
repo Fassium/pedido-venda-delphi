@@ -145,6 +145,11 @@
             <Form>FrmBase</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\pedidos\View.PedidoVenda.pas">
+            <Form>FrmPedidoVenda</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrmBase</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

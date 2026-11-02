@@ -23,6 +23,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure lblMenuClick(Sender: TObject);
     procedure btnInicioClick(Sender: TObject);
+    procedure btnPedidoVendaClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure pgcTelasChange(Sender: TObject);
@@ -40,6 +41,9 @@ var
   FrmPrincipal: TFrmPrincipal;
 
 implementation
+
+uses
+  View.PedidoVenda;
 
 {$R *.dfm}
 
@@ -133,6 +137,11 @@ procedure TFrmPrincipal.btnInicioClick(Sender: TObject);
 begin
   pgcTelas.ActivePage := tabInicio;
   SelecionarModulo(tabInicio.Caption);
+end;
+
+procedure TFrmPrincipal.btnPedidoVendaClick(Sender: TObject);
+begin
+  AbrirTela(TFrmPedidoVenda, btnPedidoVenda.Caption);
 end;
 
 procedure TFrmPrincipal.lblMenuClick(Sender: TObject);

@@ -108,6 +108,7 @@ object FrmPrincipal: TFrmPrincipal
       Height = 48
       Align = alTop
       Caption = 'Pedido de Venda'
+      OnClick = btnPedidoVendaClick
       Flat = True
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
