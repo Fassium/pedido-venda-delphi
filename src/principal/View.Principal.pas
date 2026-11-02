@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.WinXCtrls, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.WinXCtrls, Vcl.ComCtrls,
+  FireDAC.Comp.Client, View.Base;
 
 type
   TFrmPrincipal = class(TForm)
@@ -29,12 +30,14 @@ type
     procedure pgcTelasChange(Sender: TObject);
   private
     { Private declarations }
+    FConexao: TFDConnection;
     procedure SelecionarModulo(const ATitulo: string);
-    procedure AbrirTela(const AClasse: TFormClass; const ATitulo: string);
+    procedure AbrirTela(const AClasse: TFrmBaseClass; const ATitulo: string);
     procedure TelaFechada(Sender: TObject; var Action: TCloseAction);
     procedure FecharAba(const AAba: TTabSheet);
   public
     { Public declarations }
+    property Conexao: TFDConnection read FConexao write FConexao;
   end;
 
 var
@@ -54,11 +57,11 @@ begin
 end;
 
 // Ativa a aba da tela se ela já estiver aberta; senão cria a tela numa aba nova. As telas abertas ficam vivas.
-procedure TFrmPrincipal.AbrirTela(const AClasse: TFormClass; const ATitulo: string);
+procedure TFrmPrincipal.AbrirTela(const AClasse: TFrmBaseClass; const ATitulo: string);
 var
   LIndice: Integer;
   LAba: TTabSheet;
-  LTela: TForm;
+  LTela: TFrmBase;
 begin
 
   LAba := nil;
@@ -70,7 +73,7 @@ begin
   if LAba = nil then
   begin
 
-    LTela := AClasse.Create(Self);
+    LTela := AClasse.Create(Self, FConexao);
 
     LAba := TTabSheet.Create(pgcTelas);
     LAba.PageControl := pgcTelas;

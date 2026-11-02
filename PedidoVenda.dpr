@@ -60,7 +60,8 @@ begin
     end;
 
     Application.CreateForm(TFrmPrincipal, FrmPrincipal);
-  Application.Run;
+    FrmPrincipal.Conexao := LConexao.Conexao;
+    Application.Run;
   finally
     LConexao.Free;
   end;

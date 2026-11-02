@@ -108,7 +108,6 @@ object FrmPrincipal: TFrmPrincipal
       Height = 48
       Align = alTop
       Caption = 'Pedido de Venda'
-      OnClick = btnPedidoVendaClick
       Flat = True
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -117,6 +116,7 @@ object FrmPrincipal: TFrmPrincipal
       Font.Style = []
       Margin = 24
       ParentFont = False
+      OnClick = btnPedidoVendaClick
       ExplicitTop = 64
     end
     object btnSair: TSpeedButton
@@ -161,13 +161,15 @@ object FrmPrincipal: TFrmPrincipal
       Align = alClient
       TabOrder = 0
       OnChange = pgcTelasChange
+      ExplicitWidth = 766
+      ExplicitHeight = 665
       object tabInicio: TTabSheet
         Caption = 'In'#237'cio'
         object pnlCartao: TPanel
           Left = 0
           Top = 0
-          Width = 768
-          Height = 673
+          Width = 760
+          Height = 643
           Margins.Left = 24
           Margins.Top = 24
           Margins.Right = 24
@@ -179,8 +181,8 @@ object FrmPrincipal: TFrmPrincipal
           ShowCaption = False
           TabOrder = 0
           StyleElements = [seFont, seBorder]
-          ExplicitWidth = 766
-          ExplicitHeight = 665
+          ExplicitWidth = 758
+          ExplicitHeight = 635
           object lblBemVindo: TLabel
             Left = 32
             Top = 32
