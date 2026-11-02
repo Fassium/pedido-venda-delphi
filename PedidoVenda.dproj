@@ -134,6 +134,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\infra\Infra.Configuracao.pas"/>
+        <DCCReference Include="src\infra\Infra.Conexao.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
