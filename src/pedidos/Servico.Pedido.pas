@@ -23,6 +23,7 @@ type
     function BuscarProduto(const ACodigo: Integer): TProduto;
     function BuscarPedido(const ANumeroPedido: Int64): TPedido;
     procedure Gravar(const APedido: TPedido);
+    procedure Cancelar(const ANumeroPedido: Int64);
     procedure Listar(const AFiltro: string; const ADestino: TFDMemTable);
   end;
 
@@ -93,6 +94,19 @@ begin
     for LItem in APedido.Itens do
       LItem.Id := 0;
 
+    raise;
+  end;
+end;
+
+// Itens e cabeçalho na mesma transação. Sem ON DELETE CASCADE no banco: a exclusão fica explícita aqui.
+procedure TServicoPedido.Cancelar(const ANumeroPedido: Int64);
+begin
+  FConexao.StartTransaction;
+  try
+    FRepositorioPedido.Excluir(ANumeroPedido);
+    FConexao.Commit;
+  except
+    FConexao.Rollback;
     raise;
   end;
 end;

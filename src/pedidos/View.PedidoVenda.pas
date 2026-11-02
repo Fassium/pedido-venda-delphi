@@ -77,6 +77,7 @@ type
     procedure edtBuscaKeyPress(Sender: TObject; var Key: Char);
     procedure btnGravarPedidoClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure btnCancelarPedidoClick(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
@@ -541,6 +542,39 @@ procedure TFrmPedidoVenda.btnEditarClick(Sender: TObject);
 begin
 
   EditarPedidoSelecionado;
+
+end;
+
+procedure TFrmPedidoVenda.btnCancelarPedidoClick(Sender: TObject);
+var
+  LNumeroPedido: Int64;
+begin
+
+  if mtLista.IsEmpty then
+  begin
+    MessageDlg('Selecione um pedido na lista.', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  LNumeroPedido := mtListaNUMERO_PEDIDO.AsLargeInt;
+
+  if MessageDlg(Format('Cancelar o pedido %d? O pedido e os itens serão excluídos.', [LNumeroPedido]),
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) <> mrYes then
+    Exit;
+
+  try
+    FController.Cancelar(LNumeroPedido);
+  except
+    on E: Exception do
+    begin
+      MessageDlg('Não foi possível cancelar o pedido.' + sLineBreak + E.Message, mtError, [mbOK], 0);
+      CarregarLista;
+      Exit;
+    end;
+  end;
+
+  MessageDlg(Format('Pedido %d cancelado.', [LNumeroPedido]), mtInformation, [mbOK], 0);
+  CarregarLista;
 
 end;
 

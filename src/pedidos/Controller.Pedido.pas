@@ -16,6 +16,7 @@ type
     function BuscarProduto(const ACodigo: Integer): TProduto;
     function BuscarPedido(const ANumeroPedido: Int64): TPedido;
     procedure Gravar(const APedido: TPedido);
+    procedure Cancelar(const ANumeroPedido: Int64);
     procedure Listar(const AFiltro: string; const ADestino: TFDMemTable);
   end;
 
@@ -61,6 +62,11 @@ end;
 procedure TControllerPedido.Gravar(const APedido: TPedido);
 begin
   FServico.Gravar(APedido);
+end;
+
+procedure TControllerPedido.Cancelar(const ANumeroPedido: Int64);
+begin
+  FServico.Cancelar(ANumeroPedido);
 end;
 
 procedure TControllerPedido.Listar(const AFiltro: string; const ADestino: TFDMemTable);

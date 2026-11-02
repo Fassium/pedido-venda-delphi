@@ -93,10 +93,14 @@ Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.d
 15. Altere um item, inclua outro, exclua um e mude a observação. Clique em **Gravar Pedido**: a lista mostra o novo total e, editando de novo, as mudanças estão lá. O número e a data de emissão não mudam.
 16. Edite um pedido e clique em **Descartar**: a confirmação pergunta "Descartar as alterações do pedido N?"; respondendo Sim, o pedido continua como estava no banco.
 
+**Cancelar pedido (bônus)**
+
+17. Na lista, selecione um pedido e clique em **Cancelar Pedido**: confirmação com **Não** como padrão. Respondendo Sim, aparece "Pedido N cancelado." e ele sai da lista; no banco, `SELECT * FROM PEDIDO_ITEM WHERE NUMERO_PEDIDO = N` não traz nada.
+
 **Descartar e sair**
 
-17. Em um pedido novo, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
-18. Na lista, clique em **Sair**: confirmação para fechar a tela.
+18. Em um pedido novo, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
+19. Na lista, clique em **Sair**: confirmação para fechar a tela.
 
 > O número do pedido vem de uma sequence: é crescente, mas pode pular números quando uma gravação é desfeita (rollback), porque a sequence não volta atrás.
 
@@ -105,6 +109,7 @@ Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.d
 - **Total sempre calculado no Model** (`TPedido.ValorTotal` soma os itens): a tela só exibe, então incluir, alterar ou excluir item nunca deixa o total errado.
 - **Transação no Service:** cabeçalho e itens são gravados juntos; em qualquer erro, `Rollback` e a mensagem aparece sem perder o que foi digitado.
 - **Edição do pedido:** `UPDATE` do cabeçalho, apaga e regrava os itens, tudo na mesma transação. É mais simples e seguro que comparar item a item; o custo é os itens ganharem IDs novos. Se o pedido sumiu do banco (`RowsAffected = 0`), a gravação é desfeita.
+- **Cancelar pedido** apaga os itens e depois o cabeçalho, na mesma transação. O banco não tem `ON DELETE CASCADE` de propósito: a exclusão fica explícita no código e ninguém apaga itens sem querer ao mexer no pedido direto no banco.
 - **Número do pedido** com `NEXT VALUE FOR` + `RETURNING`, sem trigger e sem `SELECT` extra; `PEDIDO_ITEM.ID` com `IDENTITY`.
 - **Índices das FKs** nomeados com `USING INDEX`, porque no Firebird a FK já cria o índice.
 - **Queries sempre parametrizadas**; o filtro da lista monta o `WHERE` conforme o que foi digitado, mas o valor vai sempre por parâmetro.

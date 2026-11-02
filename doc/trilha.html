@@ -235,12 +235,16 @@
     <li><code>RowsAffected = 0</code> no <code>UPDATE</code> (pedido apagado em outra estação) vira erro e o <code>Rollback</code> desfaz tudo. No rollback de uma edição o número continua; só o pedido novo volta a 0.</li>
     <li>Descartar na edição pergunta "Descartar as alterações do pedido N?".</li>
   </ul>
+  <p class="commits"><code>c215e2e</code></p>
 </article>
 
-<article class="passo bonus">
-  <div class="topo"><h3>10. Cancelar Pedido (bônus)</h3><span class="selo bonus">Bônus pendente</span></div>
+<article class="passo feito">
+  <div class="topo"><h3>10. Cancelar Pedido (bônus)</h3><span class="selo feito">Concluído</span></div>
   <ul>
-    <li>Botão na lista, com confirmação: apaga itens e pedido na mesma transação (sem <code>ON DELETE CASCADE</code>, de propósito).</li>
+    <li>Selecionar o pedido na lista e clicar em Cancelar Pedido, com confirmação (Não como padrão, porque apaga).</li>
+    <li>Service abre a transação; o repositório apaga os itens (reaproveita <code>ExcluirItens</code>, o mesmo da edição) e depois o cabeçalho, por causa da FK.</li>
+    <li>Sem <code>ON DELETE CASCADE</code>, de propósito: a exclusão fica explícita no código.</li>
+    <li><code>RowsAffected = 0</code> (pedido já apagado em outra estação) vira erro, o <code>Rollback</code> desfaz e a lista é recarregada.</li>
   </ul>
 </article>
 
@@ -258,7 +262,7 @@
   <ul>
     <li>Feito: README com criar o banco, configurar o INI, executar, roteiro de testes, decisões técnicas e autoria.</li>
     <li>Feito: <code>config.ini.example</code> na raiz, com as mesmas chaves e senha de exemplo.</li>
-    <li>Feito: roteiro com a Observação (4.1) e o Carregar Pedido, e a decisão de apagar e regravar os itens.</li>
+    <li>Feito: roteiro com a Observação (4.1) , o Carregar Pedido e o Cancelar Pedido, e as decisões de apagar e regravar os itens e de não usar <code>ON DELETE CASCADE</code>.</li>
     <li>Falta: completar o roteiro com os bônus.</li>
   </ul>
 </article>
@@ -288,7 +292,7 @@
     <tr><td>5 INI dinâmico, queries parametrizadas, sem componentes de terceiros, <code>fbclient.dll</code> no <code>bin</code></td><td><span class="selo feito">Feito</span></td><td><code>Infra.*</code>, repositórios</td></tr>
     <tr><td>6 README com banco, INI, execução e roteiro de testes</td><td><span class="selo feito">Feito</span></td><td><code>README.md</code> (completar com os bônus)</td></tr>
     <tr><td>6 <code>config.ini.example</code></td><td><span class="selo feito">Feito</span></td><td>raiz do projeto</td></tr>
-    <tr><td>Bônus: Carregar Pedido (feito), Cancelar Pedido, DUnitX</td><td><span class="selo bonus">Em andamento</span></td><td>passos 9, 10 e 13</td></tr>
+    <tr><td>Bônus: Carregar Pedido e Cancelar Pedido (feitos), DUnitX</td><td><span class="selo bonus">Em andamento</span></td><td>passos 9, 10 e 13</td></tr>
   </tbody>
 </table>
 </div>

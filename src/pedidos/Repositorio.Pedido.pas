@@ -11,6 +11,7 @@ type
     function BuscarPorNumero(const ANumeroPedido: Int64): TPedido;
     procedure Inserir(const APedido: TPedido);
     procedure Atualizar(const APedido: TPedido);
+    procedure Excluir(const ANumeroPedido: Int64);
     procedure Listar(const AFiltro: string; const ADestino: TFDMemTable);
   end;
 
@@ -25,6 +26,7 @@ type
     function BuscarPorNumero(const ANumeroPedido: Int64): TPedido;
     procedure Inserir(const APedido: TPedido);
     procedure Atualizar(const APedido: TPedido);
+    procedure Excluir(const ANumeroPedido: Int64);
     procedure Listar(const AFiltro: string; const ADestino: TFDMemTable);
   end;
 
@@ -154,6 +156,27 @@ begin
 
   ExcluirItens(APedido.NumeroPedido);
   InserirItens(APedido);
+end;
+
+// Não abre transação. Os itens saem antes do cabeçalho por causa da FK.
+procedure TRepositorioPedido.Excluir(const ANumeroPedido: Int64);
+var
+  LConsulta: TFDQuery;
+begin
+  ExcluirItens(ANumeroPedido);
+
+  LConsulta := TFDQuery.Create(nil);
+  try
+    LConsulta.Connection := FConexao;
+    LConsulta.SQL.Text := 'DELETE FROM PEDIDO WHERE NUMERO_PEDIDO = :NUMERO_PEDIDO';
+    LConsulta.ParamByName('NUMERO_PEDIDO').AsLargeInt := ANumeroPedido;
+    LConsulta.ExecSQL;
+
+    if LConsulta.RowsAffected = 0 then
+      raise Exception.CreateFmt('O pedido %d não existe mais.', [ANumeroPedido]);
+  finally
+    LConsulta.Free;
+  end;
 end;
 
 // Observação em branco vai como NULL: "não informada", e não um texto vazio.

@@ -100,6 +100,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Anchors = [akTop, akRight]
             Caption = '&Cancelar Pedido'
             TabOrder = 4
+            OnClick = btnCancelarPedidoClick
           end
           object btnSair: TButton
             Left = 888
