@@ -154,6 +154,8 @@
         <DCCReference Include="src\pedidos\Model.Pedido.pas"/>
         <DCCReference Include="src\clientes\Model.Cliente.pas"/>
         <DCCReference Include="src\produtos\Model.Produto.pas"/>
+        <DCCReference Include="src\clientes\Repositorio.Cliente.pas"/>
+        <DCCReference Include="src\produtos\Repositorio.Produto.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
