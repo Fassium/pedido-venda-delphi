@@ -21,7 +21,8 @@ uses
   Repositorio.Cliente in 'src\clientes\Repositorio.Cliente.pas',
   Repositorio.Produto in 'src\produtos\Repositorio.Produto.pas',
   Servico.Pedido in 'src\pedidos\Servico.Pedido.pas',
-  Controller.Pedido in 'src\pedidos\Controller.Pedido.pas';
+  Controller.Pedido in 'src\pedidos\Controller.Pedido.pas',
+  Repositorio.Pedido in 'src\pedidos\Repositorio.Pedido.pas';
 
 {$R *.res}
 
