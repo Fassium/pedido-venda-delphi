@@ -154,7 +154,7 @@
 <article class="passo feito">
   <div class="topo"><h3>2. Configuração, conexão, login e tela principal</h3><span class="selo feito">Concluído</span></div>
   <ul>
-    <li><code>bin/config.ini</code> com as 6 chaves do enunciado, lido por <code>Infra.Configuracao</code>; <code>ClientLibrary</code> relativo à pasta do INI.</li>
+    <li><code>bin/config.ini</code> com as 6 chaves do enunciado, lido por <code>Infra.Configuracao</code>; <code>ClientLibrary</code> relativo à pasta do INI. Fica fora do Git, porque guarda a senha: o repositório traz só o <code>config.ini.example</code> e o README ensina a criar o arquivo.</li>
     <li><code>Infra.Conexao</code>: <code>TFDConnection</code> e driver Firebird criados em código, sem conexão em tempo de design.</li>
     <li>Login demonstrativo, tela principal com menu lateral e abas, e <code>View.Base</code> herdada pelas telas, que recebem a conexão no construtor.</li>
   </ul>
@@ -262,8 +262,9 @@
   <ul>
     <li>Feito: README com criar o banco, configurar o INI, executar, roteiro de testes, decisões técnicas e autoria.</li>
     <li>Feito: <code>config.ini.example</code> na raiz, com as mesmas chaves e senha de exemplo.</li>
-    <li>Feito: roteiro com a Observação (4.1) , o Carregar Pedido e o Cancelar Pedido, e as decisões de apagar e regravar os itens e de não usar <code>ON DELETE CASCADE</code>.</li>
-    <li>Falta: completar o roteiro com os bônus.</li>
+    <li>Feito: o <code>bin/config.ini</code> era versionado para facilitar a avaliação e saiu do Git (guarda a senha); o README mostra como criá-lo a partir do exemplo.</li>
+    <li>Feito: roteiro com a Observação (4.1), o Carregar Pedido e o Cancelar Pedido, e as decisões de apagar e regravar os itens e de não usar <code>ON DELETE CASCADE</code>.</li>
+    <li>Falta: roteiro dos testes DUnitX.</li>
   </ul>
 </article>
 

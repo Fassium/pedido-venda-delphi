@@ -38,7 +38,13 @@ Abra o [`db/db.sql`](db/db.sql) numa ferramenta SQL (ex.: DBeaver), conectada ao
 
 ## 4. Configurar
 
-O programa lê o `config.ini` da mesma pasta do executável (`bin\config.ini`). O repositório já traz esse arquivo pronto para o banco local do passo 2; o [`config.ini.example`](config.ini.example) mostra as mesmas chaves com valores de exemplo.
+O programa lê o `config.ini` da mesma pasta do executável (`bin\config.ini`). Esse arquivo não vai para o repositório, porque guarda a senha do banco. Crie o seu a partir do [`config.ini.example`](config.ini.example), na raiz do projeto:
+
+```bat
+copy config.ini.example bin\config.ini
+```
+
+Depois abra o `bin\config.ini` e troque `SUA_SENHA` pela senha do SYSDBA. Se o banco foi criado em outro caminho, ajuste também o `Database`.
 
 | Chave | O que é |
 |---|---|
@@ -48,7 +54,7 @@ O programa lê o `config.ini` da mesma pasta do executável (`bin\config.ini`). 
 | `Username` / `Password` | Usuário e senha do banco |
 | `ClientLibrary` | Caminho do `fbclient.dll`, relativo à pasta do INI ou absoluto |
 
-Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.dll` x64 e o runtime do Visual C++ que ele usa, então não é preciso copiar nada para o Windows.
+O `bin` já traz o `fbclient.dll` x64 e o runtime do Visual C++ que ele usa, então não é preciso copiar nada para o Windows.
 
 ## 5. Executar
 

@@ -84,4 +84,3 @@ bin/*
 !bin/msvcp140.dll
 !bin/vcruntime140.dll
 !bin/vcruntime140_1.dll
-!bin/config.ini
