@@ -15,7 +15,8 @@ uses
   System.SysUtils,
   System.UITypes,
   Model.PedidoItem in 'src\pedidos\Model.PedidoItem.pas',
-  Model.Pedido in 'src\pedidos\Model.Pedido.pas';
+  Model.Pedido in 'src\pedidos\Model.Pedido.pas',
+  Model.Cliente in 'src\clientes\Model.Cliente.pas';
 
 {$R *.res}
 
