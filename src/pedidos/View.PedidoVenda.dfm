@@ -210,9 +210,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Top = 26
             Width = 90
             Height = 23
-            TabStop = False
-            Color = clBtnFace
-            ReadOnly = True
+            Enabled = False
             TabOrder = 0
           end
           object edtDataEmissao: TEdit
