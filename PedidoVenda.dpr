@@ -14,7 +14,8 @@ uses
   Winapi.Windows,
   System.SysUtils,
   System.UITypes,
-  Model.PedidoItem in 'src\pedidos\Model.PedidoItem.pas';
+  Model.PedidoItem in 'src\pedidos\Model.PedidoItem.pas',
+  Model.Pedido in 'src\pedidos\Model.Pedido.pas';
 
 {$R *.res}
 
