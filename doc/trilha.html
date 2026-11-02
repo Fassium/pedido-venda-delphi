@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trilha do Pedido de Venda</title>
+<style>
+  :root {
+    --fundo: #f4f6f9;
+    --cartao: #ffffff;
+    --texto: #1f2933;
+    --suave: #5b6775;
+    --borda: #d9dee5;
+    --destaque: #3b5b82;
+    --feito: #1f7a4d;
+    --feito-fundo: #e3f4ea;
+    --pendente: #9a5b00;
+    --pendente-fundo: #fdf0dc;
+    --bonus: #5b3d99;
+    --bonus-fundo: #ece6f8;
+    --codigo: #eef1f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #14181d;
+      --cartao: #1d232a;
+      --texto: #e4e8ed;
+      --suave: #9aa5b1;
+      --borda: #2f3842;
+      --destaque: #8fb3df;
+      --feito: #6fd19c;
+      --feito-fundo: #173526;
+      --pendente: #f2b866;
+      --pendente-fundo: #3a2c14;
+      --bonus: #b9a2ec;
+      --bonus-fundo: #2c2442;
+      --codigo: #262d35;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 15px/1.55 "Segoe UI", system-ui, sans-serif;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { border-bottom: 3px solid var(--destaque); padding-bottom: 16px; margin-bottom: 24px; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  h2 { margin: 36px 0 12px; font-size: 21px; color: var(--destaque); }
+  h3 { margin: 0; font-size: 17px; }
+  p { margin: 8px 0; }
+  .autoria { color: var(--suave); margin: 4px 0 0; }
+  .resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .numero { background: var(--cartao); border: 1px solid var(--borda); border-radius: 8px; padding: 12px 16px; }
+  .numero strong { display: block; font-size: 26px; }
+  .numero span { color: var(--suave); font-size: 13px; }
+  .barra { height: 10px; background: var(--borda); border-radius: 5px; overflow: hidden; margin-top: 12px; }
+  .barra div { height: 100%; background: var(--feito); }
+  .passo {
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-left: 5px solid var(--borda);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .passo.feito { border-left-color: var(--feito); }
+  .passo.pendente { border-left-color: var(--pendente); }
+  .passo.bonus { border-left-color: var(--bonus); }
+  .topo { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .selo { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+  .selo.feito { color: var(--feito); background: var(--feito-fundo); }
+  .selo.pendente { color: var(--pendente); background: var(--pendente-fundo); }
+  .selo.bonus { color: var(--bonus); background: var(--bonus-fundo); }
+  ul { margin: 8px 0; padding-left: 20px; }
+  li { margin: 3px 0; }
+  code {
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 13px;
+    background: var(--codigo);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .commits { color: var(--suave); font-size: 13px; margin-top: 8px; }
+  .commits code { font-size: 12px; }
+  table { width: 100%; border-collapse: collapse; background: var(--cartao); border: 1px solid var(--borda); border-radius: 8px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+  th { background: var(--codigo); font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  .tabela { overflow-x: auto; }
+  .camadas { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .camada { background: var(--cartao); border: 1px solid var(--destaque); border-radius: 6px; padding: 6px 12px; font-weight: 600; }
+  .seta { color: var(--suave); }
+  footer { margin-top: 48px; color: var(--suave); font-size: 13px; border-top: 1px solid var(--borda); padding-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Trilha do Pedido de Venda</h1>
+  <p>Passo a passo da construção do projeto, o que já foi feito e o que falta, conforme o enunciado do teste técnico (Delphi + FireDAC + Firebird).</p>
+  <p class="autoria"><strong>Autor:</strong> Thiago Fassina · desenvolvido em <em>pair programming</em> com <strong>Claude Code</strong> (Anthropic) · atualizado em 02/11/2026</p>
+</header>
+
+<section class="resumo">
+  <div class="numero"><strong>8 de 9</strong><span>passos obrigatórios concluídos</span></div>
+  <div class="numero"><strong>0 de 3</strong><span>bônus concluídos</span></div>
+  <div class="numero"><strong>41</strong><span>commits pequenos</span></div>
+  <div class="numero"><strong>~4h a 5h</strong><span>estimativa para fechar tudo</span></div>
+</section>
+<div class="barra" aria-label="8 de 9 passos obrigatórios concluídos"><div style="width: 89%"></div></div>
+
+<h2>Arquitetura</h2>
+<div class="camadas">
+  <span class="camada">View</span><span class="seta">→</span>
+  <span class="camada">Controller</span><span class="seta">→</span>
+  <span class="camada">Service</span><span class="seta">→</span>
+  <span class="camada">Repository</span><span class="seta">→</span>
+  <span class="camada">Infra (conexão e INI)</span>
+</div>
+<p>O <strong>Model</strong> (<code>TPedido</code>, <code>TPedidoItem</code>, <code>TCliente</code>, <code>TProduto</code>) atravessa as camadas. Pastas por domínio (<code>src/clientes</code>, <code>src/produtos</code>, <code>src/pedidos</code>, <code>src/infra</code>, <code>src/comum</code>), com a camada no prefixo da unit.</p>
+<ul>
+  <li><strong>Regra do total no Model:</strong> <code>TPedido.ValorTotal</code> sempre soma os itens. A tela só exibe; por isso a correção 4.2 sai certa por construção.</li>
+  <li><strong>Transação no Service:</strong> só ele sabe que gravar um pedido envolve duas tabelas. Os repositórios executam o SQL e não abrem transação.</li>
+  <li><strong>Repositórios com interface</strong> (<code>IRepositorioPedido</code>...) recebidos no construtor do Service (inversão de dependência). O Controller é o ponto que monta as peças.</li>
+</ul>
+
+<h2>Passos</h2>
+
+<article class="passo feito">
+  <div class="topo"><h3>0. Ambiente e estrutura</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li>Firebird 5.0.4 x64 como serviço; projeto Delphi 13 em <strong>Win64</strong> (o <code>fbclient.dll</code> precisa ter a mesma arquitetura do exe).</li>
+    <li><code>bin/</code> com <code>fbclient.dll</code> e o runtime do Visual C++ (<code>msvcp140</code>, <code>vcruntime140</code>, <code>vcruntime140_1</code>), para rodar sem instalar nada além do servidor.</li>
+    <li>Pastas por domínio e <code>.gitignore</code> do Delphi.</li>
+  </ul>
+  <p class="commits"><code>d0cb954</code> <code>4459a83</code> <code>794f2dc</code> <code>883eeeb</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>1. Script do banco (<code>db/db.sql</code>)</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li>Tabelas <code>CLIENTE</code>, <code>PRODUTO</code>, <code>PEDIDO</code> e <code>PEDIDO_ITEM</code> com constraints nomeadas (<code>PK_</code>, <code>FK_</code>, <code>CK_</code>).</li>
+    <li><code>SEQ_PEDIDO_NUMERO</code> para o número do pedido; <code>PEDIDO_ITEM.ID</code> como <code>IDENTITY</code>.</li>
+    <li>Índices das FKs nomeados com <code>USING INDEX</code>: no Firebird a FK já cria um índice, então o requisito é atendido sem índice duplicado.</li>
+    <li><code>CHECK</code> de quantidade &gt; 0, valores &gt;= 0 e <code>VLR_TOTAL = QUANTIDADE * VLR_UNITARIO</code>; dinheiro em <code>NUMERIC(15,2)</code>.</li>
+    <li>Carga de 12 clientes e 12 produtos.</li>
+  </ul>
+  <p class="commits"><code>b95b830</code> <code>70c3b27</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>2. Configuração, conexão, login e tela principal</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li><code>bin/config.ini</code> com as 6 chaves do enunciado, lido por <code>Infra.Configuracao</code>; <code>ClientLibrary</code> relativo à pasta do INI.</li>
+    <li><code>Infra.Conexao</code>: <code>TFDConnection</code> e driver Firebird criados em código, sem conexão em tempo de design.</li>
+    <li>Login demonstrativo, tela principal com menu lateral e abas, e <code>View.Base</code> herdada pelas telas, que recebem a conexão no construtor.</li>
+  </ul>
+  <p class="commits"><code>7653dfa</code> <code>9254746</code> <code>673832d</code> <code>6b770b0</code> <code>5535d99</code> <code>71f4229</code> <code>f6cddc0</code> <code>fb5f5d2</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>3. Model com a regra de totalização</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li><code>TPedidoItem</code> com <code>ValorTotal</code> calculado (quantidade × valor unitário), só leitura.</li>
+    <li><code>TPedido</code> com <code>Itens: TObjectList&lt;TPedidoItem&gt;</code> (dona dos objetos) e <code>ValorTotal</code> somado dos itens.</li>
+    <li>Dinheiro em <code>Currency</code> (decimal exato), nunca <code>Double</code>.</li>
+  </ul>
+  <p class="commits"><code>2aa27ed</code> <code>123c1b7</code> <code>ad3d1aa</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>4. Cliente, produto e a tela do pedido</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li>Repositórios de cliente e produto com query parametrizada; o Service levanta <code>EValidacao</code> quando o código não existe.</li>
+    <li>Tela com <code>TCardPanel</code>: <strong>lista de pedidos</strong> (Novo, Editar, Cancelar Pedido, Sair) e <strong>pedido</strong> (Gravar Pedido, Descartar).</li>
+    <li>Busca do cliente e do produto no <code>OnExit</code>, com <code>TryStrToInt</code>. O produto só é buscado de novo se o código mudar, para não sobrescrever um preço editado.</li>
+    <li>Confirmação com <strong>Não</strong> como padrão no Descartar e no Sair.</li>
+  </ul>
+  <p class="commits"><code>10d308f</code> <code>1be1f4a</code> <code>7d08b02</code> <code>225f25a</code> <code>3ec85cc</code> <code>b8d895a</code> <code>a47df3d</code> <code>a7cfd45</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>5. Inserir/Atualizar Item, grid e total</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li>O grid (<code>TStringGrid</code>) só desenha <code>FPedido.Itens</code>: a linha N é o item N-1, o que permite produtos repetidos.</li>
+    <li><code>FIndiceEmEdicao</code> decide entre inserir (-1) e atualizar; o botão mostra "Inserir Item" ou "Atualizar Item".</li>
+    <li>Validação de produto, quantidade e valor, com foco no campo com problema.</li>
+  </ul>
+  <p class="commits"><code>0488eed</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>6. ENTER e DEL no grid (inclui a correção 4.2)</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li>ENTER ou duplo clique carregam o item nos campos; DEL exclui com confirmação.</li>
+    <li>Depois de excluir, <code>ExibirItens</code> redesenha o grid e mostra <code>FPedido.ValorTotal</code>: o total é recalculado na hora.</li>
+    <li>Se a linha excluída estiver acima da que está em edição, o índice em edição é ajustado.</li>
+  </ul>
+  <p class="commits"><code>69fcd94</code></p>
+</article>
+
+<article class="passo feito">
+  <div class="topo"><h3>7. Gravar Pedido com transação e lista de pedidos</h3><span class="selo feito">Concluído</span></div>
+  <ul>
+    <li><code>INSERT ... VALUES (NEXT VALUE FOR SEQ_PEDIDO_NUMERO, ...) RETURNING NUMERO_PEDIDO</code>: o número volta na mesma instrução.</li>
+    <li>Itens com <code>RETURNING ID</code>; a query é preparada uma vez e reaproveitada.</li>
+    <li>Service: valida, <code>StartTransaction</code> → <code>Commit</code>; em erro, <code>Rollback</code>, zera número e IDs do objeto e relança a exceção.</li>
+    <li>Lista com <code>INNER JOIN CLIENTE</code> e filtro por número (usa a PK) ou <code>NOME CONTAINING</code>, sempre por parâmetro.</li>
+    <li>Erro encontrado no teste e corrigido: <code>[FB]-338</code> (tipo do parâmetro mudou depois do <code>Prepare</code>); os parâmetros de valor são declarados <code>ftCurrency</code> antes de preparar. O rollback provou que o cabeçalho não ficou gravado pela metade.</li>
+  </ul>
+  <p class="commits"><code>18b5db2</code> <code>1932d4d</code> <code>a9d1dd8</code> <code>d98cf60</code></p>
+</article>
+
+<article class="passo pendente">
+  <div class="topo"><h3>8. Observação no pedido (evolução 4.1)</h3><span class="selo pendente">Pendente</span></div>
+  <ul>
+    <li><code>ALTER TABLE PEDIDO ADD OBSERVACAO</code> no <code>db.sql</code> e no banco local.</li>
+    <li>Propriedade no <code>TPedido</code>, campo no cabeçalho da tela e coluna no <code>INSERT</code>.</li>
+    <li>Um commit só, para aparecer no histórico como evolução.</li>
+  </ul>
+</article>
+
+<article class="passo bonus">
+  <div class="topo"><h3>9. Carregar Pedido (bônus)</h3><span class="selo bonus">Bônus pendente</span></div>
+  <ul>
+    <li>Editar, ENTER ou duplo clique na lista buscam o cabeçalho e os itens pelo número.</li>
+    <li>Gravar passa a atualizar pedido existente: <code>UPDATE</code> do cabeçalho, apaga e regrava os itens, na mesma transação.</li>
+  </ul>
+</article>
+
+<article class="passo bonus">
+  <div class="topo"><h3>10. Cancelar Pedido (bônus)</h3><span class="selo bonus">Bônus pendente</span></div>
+  <ul>
+    <li>Botão na lista, com confirmação: apaga itens e pedido na mesma transação (sem <code>ON DELETE CASCADE</code>, de propósito).</li>
+  </ul>
+</article>
+
+<article class="passo bonus">
+  <div class="topo"><h3>11. Testes DUnitX (bônus)</h3><span class="selo bonus">Bônus pendente</span></div>
+  <ul>
+    <li>Testes da totalização do <code>TPedido</code>: somar itens, atualizar item, excluir item e pedido vazio.</li>
+  </ul>
+</article>
+
+<article class="passo pendente">
+  <div class="topo"><h3>12. Documentação final</h3><span class="selo pendente">Em andamento</span></div>
+  <ul>
+    <li>Feito: README com criar o banco, configurar o INI, executar, roteiro de testes, decisões técnicas e autoria.</li>
+    <li>Feito: <code>config.ini.example</code> na raiz, com as mesmas chaves e senha de exemplo.</li>
+    <li>Falta: completar o roteiro com a Observação e os bônus.</li>
+  </ul>
+</article>
+
+<article class="passo pendente">
+  <div class="topo"><h3>13. Acabamento</h3><span class="selo pendente">Se sobrar tempo</span></div>
+  <ul>
+    <li>Esc para desistir da edição de um item.</li>
+    <li>Aviso ao fechar o sistema com um pedido em edição (<code>CloseQuery</code>).</li>
+    <li>Feito: largura da coluna Nº Pedido na lista e indentação do <code>.dpr</code>.</li>
+  </ul>
+</article>
+
+<h2>Requisitos do enunciado</h2>
+<div class="tabela">
+<table>
+  <thead><tr><th>Requisito</th><th>Situação</th><th>Onde</th></tr></thead>
+  <tbody>
+    <tr><td>2.1 Cliente por código, Nome/Cidade/UF só leitura, cliente inexistente</td><td><span class="selo feito">Feito</span></td><td><code>View.PedidoVenda</code>, <code>Servico.Pedido</code></td></tr>
+    <tr><td>2.2 Produto, quantidade, valor unitário (preço sugerido e editável), descrição só leitura</td><td><span class="selo feito">Feito</span></td><td><code>View.PedidoVenda</code></td></tr>
+    <tr><td>2.3 Grid com 5 colunas e produtos repetidos</td><td><span class="selo feito">Feito</span></td><td><code>grdItens</code></td></tr>
+    <tr><td>2.4 ENTER carrega, DEL exclui com confirmação</td><td><span class="selo feito">Feito</span></td><td><code>grdItensKeyDown</code></td></tr>
+    <tr><td>2.5 Total do pedido no rodapé</td><td><span class="selo feito">Feito</span></td><td><code>TPedido.ValorTotal</code></td></tr>
+    <tr><td>2.6 Gravar cabeçalho e itens com transação e tratamento de erro</td><td><span class="selo feito">Feito</span></td><td><code>TServicoPedido.Gravar</code></td></tr>
+    <tr><td>3.1 a 3.3 Tabelas, sequence, identity, FKs, índices e carga</td><td><span class="selo feito">Feito</span></td><td><code>db/db.sql</code></td></tr>
+    <tr><td>4.1 Observação no cabeçalho</td><td><span class="selo pendente">Pendente</span></td><td>passo 8</td></tr>
+    <tr><td>4.2 Total recalculado ao excluir item</td><td><span class="selo feito">Feito</span></td><td><code>ExcluirItemSelecionado</code> → <code>ExibirItens</code></td></tr>
+    <tr><td>5 INI dinâmico, queries parametrizadas, sem componentes de terceiros, <code>fbclient.dll</code> no <code>bin</code></td><td><span class="selo feito">Feito</span></td><td><code>Infra.*</code>, repositórios</td></tr>
+    <tr><td>6 README com banco, INI, execução e roteiro de testes</td><td><span class="selo feito">Feito</span></td><td><code>README.md</code> (completar com 4.1 e bônus)</td></tr>
+    <tr><td>6 <code>config.ini.example</code></td><td><span class="selo feito">Feito</span></td><td>raiz do projeto</td></tr>
+    <tr><td>Bônus: Carregar Pedido, Cancelar Pedido, DUnitX</td><td><span class="selo bonus">Pendente</span></td><td>passos 9 a 11</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Como foi o trabalho com IA</h2>
+<p>O projeto foi feito em <em>pair programming</em> com o <strong>Claude Code</strong>. Thiago conduziu as decisões de produto e de arquitetura, testou cada passo no Delphi, encontrou e reportou os erros e fez todos os commits. O Claude Code propôs a estrutura em camadas, revisou o código, explicou o porquê de cada escolha e escreveu parte do código a pedido, sempre em passos pequenos e conferidos antes do commit.</p>
+
+<footer>Trilha mantida junto com o código; os hashes de commit permitem conferir cada passo no histórico do Git.</footer>
+
+</main>
+</body>
+</html>
