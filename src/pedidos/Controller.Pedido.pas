@@ -14,6 +14,7 @@ type
     destructor Destroy; override;
     function BuscarCliente(const ACodigo: Integer): TCliente;
     function BuscarProduto(const ACodigo: Integer): TProduto;
+    function BuscarPedido(const ANumeroPedido: Int64): TPedido;
     procedure Gravar(const APedido: TPedido);
     procedure Listar(const AFiltro: string; const ADestino: TFDMemTable);
   end;
@@ -50,6 +51,11 @@ end;
 function TControllerPedido.BuscarProduto(const ACodigo: Integer): TProduto;
 begin
   Result := FServico.BuscarProduto(ACodigo);
+end;
+
+function TControllerPedido.BuscarPedido(const ANumeroPedido: Int64): TPedido;
+begin
+  Result := FServico.BuscarPedido(ANumeroPedido);
 end;
 
 procedure TControllerPedido.Gravar(const APedido: TPedido);

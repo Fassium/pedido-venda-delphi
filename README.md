@@ -87,10 +87,16 @@ Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.d
 12. Grave um pedido com **Observação** e outro com ela em branco: a lista mostra o texto no primeiro e a coluna vazia no segundo (no banco, `SELECT NUMERO_PEDIDO, OBSERVACAO FROM PEDIDO` mostra `NULL`).
 13. Na lista, filtre pelo número do pedido ou por parte do nome do cliente e aperte Enter.
 
+**Editar pedido (bônus)**
+
+14. Na lista, selecione um pedido, clique em **Editar** e confirme: o pedido abre com número, data, cliente, observação e itens.
+15. Altere um item, inclua outro, exclua um e mude a observação. Clique em **Gravar Pedido**: a lista mostra o novo total e, editando de novo, as mudanças estão lá. O número e a data de emissão não mudam.
+16. Edite um pedido e clique em **Descartar**: a confirmação pergunta "Descartar as alterações do pedido N?"; respondendo Sim, o pedido continua como estava no banco.
+
 **Descartar e sair**
 
-14. Em um pedido, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
-15. Na lista, clique em **Sair**: confirmação para fechar a tela.
+17. Em um pedido novo, clique em **Descartar**: confirmação com **Não** como padrão; respondendo Sim, nada é gravado.
+18. Na lista, clique em **Sair**: confirmação para fechar a tela.
 
 > O número do pedido vem de uma sequence: é crescente, mas pode pular números quando uma gravação é desfeita (rollback), porque a sequence não volta atrás.
 
@@ -98,6 +104,7 @@ Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.d
 
 - **Total sempre calculado no Model** (`TPedido.ValorTotal` soma os itens): a tela só exibe, então incluir, alterar ou excluir item nunca deixa o total errado.
 - **Transação no Service:** cabeçalho e itens são gravados juntos; em qualquer erro, `Rollback` e a mensagem aparece sem perder o que foi digitado.
+- **Edição do pedido:** `UPDATE` do cabeçalho, apaga e regrava os itens, tudo na mesma transação. É mais simples e seguro que comparar item a item; o custo é os itens ganharem IDs novos. Se o pedido sumiu do banco (`RowsAffected = 0`), a gravação é desfeita.
 - **Número do pedido** com `NEXT VALUE FOR` + `RETURNING`, sem trigger e sem `SELECT` extra; `PEDIDO_ITEM.ID` com `IDENTITY`.
 - **Índices das FKs** nomeados com `USING INDEX`, porque no Firebird a FK já cria o índice.
 - **Queries sempre parametrizadas**; o filtro da lista monta o `WHERE` conforme o que foi digitado, mas o valor vai sempre por parâmetro.

@@ -76,6 +76,7 @@ type
     procedure btnBuscarClick(Sender: TObject);
     procedure edtBuscaKeyPress(Sender: TObject; var Key: Char);
     procedure btnGravarPedidoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
@@ -92,6 +93,8 @@ type
     procedure ExcluirItemSelecionado;
     procedure CarregarLista;
     procedure FocarCampoPendente;
+    procedure EditarPedidoSelecionado;
+    procedure ExibirPedido;
   public
     { Public declarations }
   end;
@@ -149,10 +152,16 @@ begin
 end;
 
 procedure TFrmPedidoVenda.btnDescartarClick(Sender: TObject);
+var
+  LMensagem: string;
 begin
 
-  if MessageDlg('Descartar o pedido? Tudo o que foi lançado será perdido.',
-    mtConfirmation, [mbYes, mbNo], 0, mbNo) <> mrYes then
+  if FPedido.NumeroPedido = 0 then
+    LMensagem := 'Descartar o pedido? Tudo o que foi lançado será perdido.'
+  else
+    LMensagem := Format('Descartar as alterações do pedido %d?', [FPedido.NumeroPedido]);
+
+  if MessageDlg(LMensagem, mtConfirmation, [mbYes, mbNo], 0, mbNo) <> mrYes then
     Exit;
 
   FreeAndNil(FPedido);
@@ -524,6 +533,68 @@ begin
     edtCodigoCliente.SetFocus
   else if FPedido.Itens.Count = 0 then
     edtCodigoProduto.SetFocus;
+
+end;
+
+
+procedure TFrmPedidoVenda.btnEditarClick(Sender: TObject);
+begin
+
+  EditarPedidoSelecionado;
+
+end;
+
+// Busca de novo no banco (e não na lista) para trazer os itens e o pedido como está agora.
+procedure TFrmPedidoVenda.EditarPedidoSelecionado;
+var
+  LPedido: TPedido;
+begin
+
+  if mtLista.IsEmpty then
+  begin
+    MessageDlg('Selecione um pedido na lista.', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  // Sim como padrão: editar não altera nada até o Gravar.
+  if MessageDlg(Format('Editar o pedido %d?', [mtListaNUMERO_PEDIDO.AsLargeInt]),
+    mtConfirmation, [mbYes, mbNo], 0, mbYes) <> mrYes then
+    Exit;
+
+  try
+    LPedido := FController.BuscarPedido(mtListaNUMERO_PEDIDO.AsLargeInt);
+  except
+    on E: EValidacao do
+    begin
+      // O pedido pode ter sido cancelado em outra estação depois que a lista foi carregada.
+      MessageDlg(E.Message, mtWarning, [mbOK], 0);
+      CarregarLista;
+      Exit;
+    end;
+  end;
+
+  FPedido.Free;
+  FPedido := LPedido;
+  ExibirPedido;
+
+  cpnPedido.ActiveCard := crdPedido;
+  edtCodigoProduto.SetFocus;
+
+end;
+
+procedure TFrmPedidoVenda.ExibirPedido;
+begin
+
+  edtNumeroPedido.Text := IntToStr(FPedido.NumeroPedido);
+  edtDataEmissao.Text := DateToStr(FPedido.DataEmissao);
+  edtObservacao.Text := FPedido.Observacao;
+
+  // Reaproveita a busca do OnExit para mostrar Nome, Cidade e UF.
+  edtCodigoCliente.Text := IntToStr(FPedido.CodigoCliente);
+  edtCodigoClienteExit(edtCodigoCliente);
+
+  LimparItem;
+  ExibirItens;
 
 end;
 
