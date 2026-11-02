@@ -68,6 +68,8 @@ type
     procedure edtCodigoClienteExit(Sender: TObject);
     procedure edtCodigoProdutoExit(Sender: TObject);
     procedure btnInserirAtualizarItemClick(Sender: TObject);
+    procedure grdItensDblClick(Sender: TObject);
+    procedure grdItensKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FController: TControllerPedido;
@@ -79,6 +81,9 @@ type
     procedure LimparProduto;
     procedure LimparItem;
     procedure ExibirItens;
+    function IndiceItemSelecionado: Integer;
+    procedure CarregarItemSelecionado;
+    procedure ExcluirItemSelecionado;
   public
     { Public declarations }
   end;
@@ -101,7 +106,7 @@ begin
   grdItens.Cells[3, 0] := 'Vlr. Unitário';
   grdItens.Cells[4, 0] := 'Vlr. Total';
 
-  grdItens.ColWidths[0] := 90;
+  grdItens.ColWidths[0] := 110;
   grdItens.ColWidths[1] := 400;
   grdItens.ColWidths[2] := 90;
   grdItens.ColWidths[3] := 110;
@@ -329,6 +334,7 @@ procedure TFrmPedidoVenda.LimparItem;
 begin
 
   FIndiceEmEdicao := -1;
+  btnInserirAtualizarItem.Caption := '&Inserir Item';
   edtCodigoProduto.Clear;
   edtQuantidade.Clear;
   LimparProduto;
@@ -355,6 +361,91 @@ begin
   end;
 
   lblValorTotal.Caption := FormatFloat('#,##0.00', FPedido.ValorTotal);
+
+end;
+
+procedure TFrmPedidoVenda.grdItensDblClick(Sender: TObject);
+begin
+
+  CarregarItemSelecionado;
+
+end;
+
+procedure TFrmPedidoVenda.grdItensKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+
+  case Key of
+    VK_RETURN:
+      begin
+        CarregarItemSelecionado;
+        Key := 0;
+      end;
+    VK_DELETE:
+      begin
+        ExcluirItemSelecionado;
+        Key := 0;
+      end;
+  end;
+
+end;
+
+// A linha 0 do grid é o título: a linha N mostra o item N - 1. Devolve -1 se não houver item selecionado.
+function TFrmPedidoVenda.IndiceItemSelecionado: Integer;
+begin
+
+  Result := grdItens.Row - 1;
+
+  if (Result < 0) or (Result >= FPedido.Itens.Count) then
+    Result := -1;
+
+end;
+
+procedure TFrmPedidoVenda.CarregarItemSelecionado;
+var
+  LIndice: Integer;
+  LItem: TPedidoItem;
+begin
+
+  LIndice := IndiceItemSelecionado;
+
+  if LIndice = -1 then
+    Exit;
+
+  LItem := FPedido.Itens[LIndice];
+
+  FIndiceEmEdicao := LIndice;
+  FCodigoProdutoExibido := LItem.CodigoProduto;
+  edtCodigoProduto.Text := IntToStr(LItem.CodigoProduto);
+  edtDescricaoProduto.Text := LItem.DescricaoProduto;
+  edtQuantidade.Text := IntToStr(LItem.Quantidade);
+  edtValorUnitario.Text := FormatFloat('0.00', LItem.ValorUnitario);
+  btnInserirAtualizarItem.Caption := '&Atualizar Item';
+
+  edtQuantidade.SetFocus;
+
+end;
+
+procedure TFrmPedidoVenda.ExcluirItemSelecionado;
+var
+  LIndice: Integer;
+begin
+
+  LIndice := IndiceItemSelecionado;
+
+  if LIndice = -1 then
+    Exit;
+
+  if MessageDlg(Format('Excluir o item %d (%s)?', [LIndice + 1, FPedido.Itens[LIndice].DescricaoProduto]),
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) <> mrYes then
+    Exit;
+
+  if LIndice = FIndiceEmEdicao then
+    LimparItem
+  else if LIndice < FIndiceEmEdicao then
+    Dec(FIndiceEmEdicao);
+
+  FPedido.Itens.Delete(LIndice);
+  ExibirItens;
 
 end;
 

@@ -359,6 +359,8 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
           RowCount = 2
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect]
           TabOrder = 2
+          OnDblClick = grdItensDblClick
+          OnKeyDown = grdItensKeyDown
         end
         object pnlRodape: TPanel
           Left = 16
