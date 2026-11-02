@@ -67,14 +67,18 @@ type
     procedure btnSairClick(Sender: TObject);
     procedure edtCodigoClienteExit(Sender: TObject);
     procedure edtCodigoProdutoExit(Sender: TObject);
+    procedure btnInserirAtualizarItemClick(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
     FPedido: TPedido;
     FCodigoProdutoExibido: Integer;
+    FIndiceEmEdicao: Integer;
     procedure LimparPedido;
     procedure LimparCliente;
     procedure LimparProduto;
+    procedure LimparItem;
+    procedure ExibirItens;
   public
     { Public declarations }
   end;
@@ -84,7 +88,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Model.Cliente, Model.Produto, Servico.Pedido;
+  System.Math, Model.Cliente, Model.Produto, Model.PedidoItem, Servico.Pedido;
 
 procedure TFrmPedidoVenda.FormCreate(Sender: TObject);
 begin
@@ -96,6 +100,12 @@ begin
   grdItens.Cells[2, 0] := 'Quantidade';
   grdItens.Cells[3, 0] := 'Vlr. Unitário';
   grdItens.Cells[4, 0] := 'Vlr. Total';
+
+  grdItens.ColWidths[0] := 90;
+  grdItens.ColWidths[1] := 400;
+  grdItens.ColWidths[2] := 90;
+  grdItens.ColWidths[3] := 110;
+  grdItens.ColWidths[4] := 110;
 
   cpnPedido.ActiveCard := crdLista;
 
@@ -154,14 +164,8 @@ begin
   edtDataEmissao.Clear;
   edtCodigoCliente.Clear;
   LimparCliente;
-  edtCodigoProduto.Clear;
-  edtQuantidade.Clear;
-  LimparProduto;
-
-  grdItens.RowCount := 2;
-  grdItens.Rows[1].Clear;
-
-  lblValorTotal.Caption := FormatFloat('#,##0.00', FPedido.ValorTotal);
+  LimparItem;
+  ExibirItens;
 
 end;
 
@@ -266,6 +270,91 @@ begin
   FCodigoProdutoExibido := 0;
   edtDescricaoProduto.Clear;
   edtValorUnitario.Clear;
+
+end;
+
+procedure TFrmPedidoVenda.btnInserirAtualizarItemClick(Sender: TObject);
+var
+  LQuantidade: Integer;
+  LValorUnitario: Currency;
+  LItem: TPedidoItem;
+begin
+
+  // O atalho Alt+I clica no botão sem tirar o foco do código, então o OnExit pode não ter rodado.
+  edtCodigoProdutoExit(edtCodigoProduto);
+
+  if FCodigoProdutoExibido = 0 then
+  begin
+    if Trim(edtCodigoProduto.Text) = '' then
+      MessageDlg('Informe o produto.', mtWarning, [mbOK], 0);
+
+    edtCodigoProduto.SetFocus;
+    Exit;
+  end;
+
+  if not TryStrToInt(edtQuantidade.Text, LQuantidade) or (LQuantidade <= 0) then
+  begin
+    MessageDlg('Informe uma quantidade maior que zero.', mtWarning, [mbOK], 0);
+    edtQuantidade.SetFocus;
+    Exit;
+  end;
+
+  if not TryStrToCurr(edtValorUnitario.Text, LValorUnitario) or (LValorUnitario < 0) then
+  begin
+    MessageDlg('Informe um valor unitário maior ou igual a zero.', mtWarning, [mbOK], 0);
+    edtValorUnitario.SetFocus;
+    Exit;
+  end;
+
+  if FIndiceEmEdicao = -1 then
+  begin
+    LItem := TPedidoItem.Create;
+    FPedido.Itens.Add(LItem);
+  end
+  else
+    LItem := FPedido.Itens[FIndiceEmEdicao];
+
+  LItem.CodigoProduto := FCodigoProdutoExibido;
+  LItem.DescricaoProduto := edtDescricaoProduto.Text;
+  LItem.Quantidade := LQuantidade;
+  LItem.ValorUnitario := LValorUnitario;
+
+  ExibirItens;
+  LimparItem;
+  edtCodigoProduto.SetFocus;
+
+end;
+
+procedure TFrmPedidoVenda.LimparItem;
+begin
+
+  FIndiceEmEdicao := -1;
+  edtCodigoProduto.Clear;
+  edtQuantidade.Clear;
+  LimparProduto;
+
+end;
+
+procedure TFrmPedidoVenda.ExibirItens;
+var
+  LIndice: Integer;
+  LItem: TPedidoItem;
+begin
+
+  grdItens.RowCount := Max(FPedido.Itens.Count, 1) + 1;
+  grdItens.Rows[1].Clear;
+
+  for LIndice := 0 to FPedido.Itens.Count - 1 do
+  begin
+    LItem := FPedido.Itens[LIndice];
+    grdItens.Cells[0, LIndice + 1] := IntToStr(LItem.CodigoProduto);
+    grdItens.Cells[1, LIndice + 1] := LItem.DescricaoProduto;
+    grdItens.Cells[2, LIndice + 1] := IntToStr(LItem.Quantidade);
+    grdItens.Cells[3, LIndice + 1] := FormatFloat('#,##0.00', LItem.ValorUnitario);
+    grdItens.Cells[4, LIndice + 1] := FormatFloat('#,##0.00', LItem.ValorTotal);
+  end;
+
+  lblValorTotal.Caption := FormatFloat('#,##0.00', FPedido.ValorTotal);
 
 end;
 

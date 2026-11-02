@@ -345,6 +345,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 25
             Caption = '&Inserir/Atualizar Item'
             TabOrder = 4
+            OnClick = btnInserirAtualizarItemClick
           end
         end
         object grdItens: TStringGrid
