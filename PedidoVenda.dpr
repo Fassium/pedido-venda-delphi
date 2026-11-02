@@ -2,7 +2,8 @@ program PedidoVenda;
 
 uses
   Vcl.Forms,
-  View.Principal in 'src\principal\View.Principal.pas' {FrmPrincipal};
+  View.Principal in 'src\principal\View.Principal.pas' {FrmPrincipal},
+  Infra.Configuracao in 'src\infra\Infra.Configuracao.pas';
 
 {$R *.res}
 
