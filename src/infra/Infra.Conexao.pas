@@ -27,7 +27,7 @@ begin
   inherited Create;
 
   FDriverLink := TFDPhysFBDriverLink.Create(nil);
-  FDriverLink.VendorLib := ExtractFilePath(ParamStr(0)) + 'fbclient.dll';
+  FDriverLink.VendorLib := AConfiguracao.BibliotecaCliente;
 
   FConexao := TFDConnection.Create(nil);
   FConexao.LoginPrompt := False;
