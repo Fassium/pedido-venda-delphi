@@ -150,6 +150,7 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrmBase</DesignClass>
         </DCCReference>
+        <DCCReference Include="src\pedidos\Model.PedidoItem.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
