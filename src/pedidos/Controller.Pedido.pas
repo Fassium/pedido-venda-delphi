@@ -3,7 +3,7 @@ unit Controller.Pedido;
 interface
 
 uses
-  FireDAC.Comp.Client, Model.Cliente, Model.Produto, Servico.Pedido;
+  FireDAC.Comp.Client, Model.Cliente, Model.Produto, Model.Pedido, Servico.Pedido;
 
 type
   TControllerPedido = class
@@ -14,22 +14,26 @@ type
     destructor Destroy; override;
     function BuscarCliente(const ACodigo: Integer): TCliente;
     function BuscarProduto(const ACodigo: Integer): TProduto;
+    procedure Gravar(const APedido: TPedido);
+    procedure Listar(const AFiltro: string; const ADestino: TFDMemTable);
   end;
 
 implementation
 
 uses
-  Repositorio.Cliente, Repositorio.Produto;
+  Repositorio.Cliente, Repositorio.Produto, Repositorio.Pedido;
 
 constructor TControllerPedido.Create(const AConexao: TFDConnection);
 var
   LRepositorioCliente: IRepositorioCliente;
   LRepositorioProduto: IRepositorioProduto;
+  LRepositorioPedido: IRepositorioPedido;
 begin
   inherited Create;
   LRepositorioCliente := TRepositorioCliente.Create(AConexao);
   LRepositorioProduto := TRepositorioProduto.Create(AConexao);
-  FServico := TServicoPedido.Create(LRepositorioCliente, LRepositorioProduto);
+  LRepositorioPedido := TRepositorioPedido.Create(AConexao);
+  FServico := TServicoPedido.Create(AConexao, LRepositorioCliente, LRepositorioProduto, LRepositorioPedido);
 end;
 
 destructor TControllerPedido.Destroy;
@@ -46,6 +50,16 @@ end;
 function TControllerPedido.BuscarProduto(const ACodigo: Integer): TProduto;
 begin
   Result := FServico.BuscarProduto(ACodigo);
+end;
+
+procedure TControllerPedido.Gravar(const APedido: TPedido);
+begin
+  FServico.Gravar(APedido);
+end;
+
+procedure TControllerPedido.Listar(const AFiltro: string; const ADestino: TFDMemTable);
+begin
+  FServico.Listar(AFiltro, ADestino);
 end;
 
 end.
