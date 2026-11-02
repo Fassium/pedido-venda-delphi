@@ -232,6 +232,7 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
             Height = 23
             NumbersOnly = True
             TabOrder = 2
+            OnExit = edtCodigoClienteExit
           end
           object edtNomeCliente: TEdit
             Left = 284

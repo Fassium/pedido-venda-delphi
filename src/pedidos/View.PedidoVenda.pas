@@ -65,11 +65,13 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure btnDescartarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure edtCodigoClienteExit(Sender: TObject);
   private
     { Private declarations }
     FController: TControllerPedido;
     FPedido: TPedido;
     procedure LimparPedido;
+    procedure LimparCliente;
   public
     { Public declarations }
   end;
@@ -77,6 +79,9 @@ type
 implementation
 
 {$R *.dfm}
+
+uses
+  Model.Cliente, Servico.Pedido;
 
 procedure TFrmPedidoVenda.FormCreate(Sender: TObject);
 begin
@@ -149,6 +154,54 @@ begin
   grdItens.Rows[1].Clear;
 
   lblValorTotal.Caption := FormatFloat('#,##0.00', FPedido.ValorTotal);
+
+end;
+
+procedure TFrmPedidoVenda.edtCodigoClienteExit(Sender: TObject);
+var
+  LCodigo: Integer;
+  LCliente: TCliente;
+begin
+
+  LimparCliente;
+
+  if Trim(edtCodigoCliente.Text) = '' then
+    Exit;
+
+  if not TryStrToInt(edtCodigoCliente.Text, LCodigo) then
+  begin
+    MessageDlg('Código do cliente inválido.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
+  try
+    LCliente := FController.BuscarCliente(LCodigo);
+  except
+    on E: EValidacao do
+    begin
+      MessageDlg(E.Message, mtWarning, [mbOK], 0);
+      Exit;
+    end;
+  end;
+
+  try
+    FPedido.CodigoCliente := LCliente.Codigo;
+    edtNomeCliente.Text := LCliente.Nome;
+    edtCidadeCliente.Text := LCliente.Cidade;
+    edtUFCliente.Text := LCliente.UF;
+  finally
+    LCliente.Free;
+  end;
+
+end;
+
+procedure TFrmPedidoVenda.LimparCliente;
+begin
+
+  FPedido.CodigoCliente := 0;
+  edtNomeCliente.Clear;
+  edtCidadeCliente.Clear;
+  edtUFCliente.Clear;
 
 end;
 
