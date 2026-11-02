@@ -88,6 +88,7 @@ type
     procedure CarregarItemSelecionado;
     procedure ExcluirItemSelecionado;
     procedure CarregarLista;
+    procedure FocarCampoPendente;
   public
     { Public declarations }
   end;
@@ -492,6 +493,7 @@ begin
     on E: EValidacao do
     begin
       MessageDlg(E.Message, mtWarning, [mbOK], 0);
+      FocarCampoPendente;
       Exit;
     end;
     on E: Exception do
@@ -506,6 +508,16 @@ begin
   FreeAndNil(FPedido);
   CarregarLista;
   cpnPedido.ActiveCard := crdLista;
+
+end;
+
+procedure TFrmPedidoVenda.FocarCampoPendente;
+begin
+
+  if FPedido.CodigoCliente = 0 then
+    edtCodigoCliente.SetFocus
+  else if FPedido.Itens.Count = 0 then
+    edtCodigoProduto.SetFocus;
 
 end;
 
