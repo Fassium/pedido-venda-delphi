@@ -7,6 +7,7 @@ uses
   Infra.Conexao in 'src\infra\Infra.Conexao.pas',
   View.Login in 'src\autenticacao\View.Login.pas' {FrmLogin},
   Servico.Autenticacao in 'src\autenticacao\Servico.Autenticacao.pas',
+  View.Base in 'src\comum\View.Base.pas' {FrmBase},
   Vcl.Themes,
   Vcl.Styles,
   Winapi.Windows,
