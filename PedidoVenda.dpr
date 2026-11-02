@@ -8,12 +8,13 @@ uses
   View.Login in 'src\autenticacao\View.Login.pas' {FrmLogin},
   Servico.Autenticacao in 'src\autenticacao\Servico.Autenticacao.pas',
   View.Base in 'src\comum\View.Base.pas' {FrmBase},
-  View.PedidoVenda in 'src\pedidos\View.PedidoVenda.pas' {FrmPedidoVenda},
+  View.PedidoVenda in 'src\pedidos\View.PedidoVenda.pas' {FrmPedidoVenda: TFrmBase},
   Vcl.Themes,
   Vcl.Styles,
   Winapi.Windows,
   System.SysUtils,
-  System.UITypes;
+  System.UITypes,
+  Model.Pedido in 'src\pedidos\Model.Pedido.pas';
 
 {$R *.res}
 
@@ -52,7 +53,7 @@ begin
     end;
 
     Application.CreateForm(TFrmPrincipal, FrmPrincipal);
-    Application.Run;
+  Application.Run;
   finally
     LConexao.Free;
   end;
