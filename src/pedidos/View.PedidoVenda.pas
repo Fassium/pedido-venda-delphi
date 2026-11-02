@@ -61,6 +61,7 @@ type
     mtListaCODIGO_CLIENTE: TIntegerField;
     mtListaNOME_CLIENTE: TStringField;
     mtListaVALOR_TOTAL: TBCDField;
+    mtListaOBSERVACAO: TStringField;
     dsLista: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

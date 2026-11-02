@@ -472,6 +472,12 @@ inherited FrmPedidoVenda: TFrmPedidoVenda
       Precision = 15
       Size = 2
     end
+    object mtListaOBSERVACAO: TStringField
+      DisplayLabel = 'Observa'#231#227'o'
+      DisplayWidth = 50
+      FieldName = 'OBSERVACAO'
+      Size = 200
+    end
   end
   object dsLista: TDataSource
     DataSet = mtLista

@@ -84,7 +84,7 @@ Ajuste `Password` se a senha do SYSDBA for outra. O `bin` já traz o `fbclient.d
 
 10. Clique em **Gravar Pedido** sem cliente: aviso e foco no Cliente. Com cliente e sem itens: aviso e foco no Produto.
 11. Com cliente e itens, clique em **Gravar Pedido**: aparece "Pedido N gravado com sucesso." e a lista mostra o pedido com o nome do cliente e o total.
-12. Grave um pedido com **Observação** e outro com ela em branco. Confira no banco: `SELECT NUMERO_PEDIDO, OBSERVACAO FROM PEDIDO` mostra o texto no primeiro e `NULL` no segundo.
+12. Grave um pedido com **Observação** e outro com ela em branco: a lista mostra o texto no primeiro e a coluna vazia no segundo (no banco, `SELECT NUMERO_PEDIDO, OBSERVACAO FROM PEDIDO` mostra `NULL`).
 13. Na lista, filtre pelo número do pedido ou por parte do nome do cliente e aperte Enter.
 
 **Descartar e sair**
