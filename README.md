@@ -8,8 +8,9 @@ O passo a passo da construção, com o que foi feito e o que falta em cada etapa
 
 ## Vídeos
 
-- **Como rodar o projeto** (instalar o Firebird, criar o banco, configurar e executar): link em breve
-- **Demonstração e explicação dos fontes** (o sistema funcionando e as camadas do código): link em breve
+1. **Instalando e executando o sistema** (Firebird, banco, `config.ini`, compilar e uma demonstração seguindo o roteiro): link em breve
+2. **Arquitetura e código-fonte** (as camadas e o porquê de cada decisão): link em breve
+3. **Testes unitários com DUnitX** (o que cada teste cobre e como rodar): link em breve
 
 ## Requisitos
 
