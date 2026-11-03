@@ -25,6 +25,13 @@ type
     // Total do pedido é a soma dos totais dos itens.
     [Test]
     procedure PedidoDeveSomarOTotalDosItens;
+    // Ao atualizar um item, o total do pedido acompanha a mudança.
+    [Test]
+    procedure PedidoDeveRecalcularAoAtualizarItem;
+    // Ao excluir um item, o total do pedido deixa de contar o item.
+    [Test]
+    procedure PedidoDeveRecalcularAoExcluirItem;
+
   end;
 
 implementation
@@ -45,6 +52,29 @@ begin
   LItem := AdicionarItem(3, 4.25);
 
   Assert.AreEqual<Currency>(12.75, LItem.ValorTotal);
+end;
+
+procedure TTestePedido.PedidoDeveRecalcularAoAtualizarItem;
+var
+  LItem: TPedidoItem;
+begin
+  LItem := AdicionarItem(2, 10.50);
+  AdicionarItem(1, 5.00);
+
+  LItem.Quantidade := 4;
+  LItem.ValorUnitario := 12.00;
+
+  Assert.AreEqual<Currency>(53.00, FPedido.ValorTotal);
+end;
+
+procedure TTestePedido.PedidoDeveRecalcularAoExcluirItem;
+begin
+  AdicionarItem(2, 10.50);
+  AdicionarItem(3, 4.25);
+
+  FPedido.Itens.Delete(0);
+
+  Assert.AreEqual<Currency>(12.75, FPedido.ValorTotal);
 end;
 
 procedure TTestePedido.PedidoDeveSomarOTotalDosItens;
