@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arquitetura do Pedido</title>
+<style>
+  :root {
+    --fundo: #f4f6f9;
+    --cartao: #ffffff;
+    --texto: #1f2933;
+    --suave: #5b6775;
+    --borda: #d9dee5;
+    --destaque: #3b5b82;
+    --destaque-fundo: #e6eefb;
+    --model: #5b3d99;
+    --model-fundo: #ece6f8;
+    --banco: #1f7a4d;
+    --banco-fundo: #e3f4ea;
+    --codigo: #eef1f5;
+    --erro: #b42318;
+    --erro-fundo: #fde8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --erro: #ff8a80;
+      --erro-fundo: #3a1d1b;
+      --fundo: #14181d;
+      --cartao: #1d232a;
+      --texto: #e4e8ed;
+      --suave: #9aa5b1;
+      --borda: #2f3842;
+      --destaque: #8fb3df;
+      --destaque-fundo: #1e2a3d;
+      --model: #b9a2ec;
+      --model-fundo: #2c2442;
+      --banco: #6fd19c;
+      --banco-fundo: #173526;
+      --codigo: #262d35;
+    }
+  }
+  :root[data-theme="dark"] {
+    --erro: #ff8a80;
+    --erro-fundo: #3a1d1b;
+    --fundo: #14181d;
+    --cartao: #1d232a;
+    --texto: #e4e8ed;
+    --suave: #9aa5b1;
+    --borda: #2f3842;
+    --destaque: #8fb3df;
+    --destaque-fundo: #1e2a3d;
+    --model: #b9a2ec;
+    --model-fundo: #2c2442;
+    --banco: #6fd19c;
+    --banco-fundo: #173526;
+    --codigo: #262d35;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 17px/1.6 "Segoe UI", system-ui, sans-serif;
+  }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { border-bottom: 3px solid var(--destaque); padding-bottom: 14px; margin-bottom: 24px; }
+  h1 { margin: 0 0 4px; font-size: 30px; }
+  h2 { margin: 40px 0 12px; font-size: 23px; color: var(--destaque); }
+  p { margin: 8px 0; }
+  .suave { color: var(--suave); }
+  .quadro {
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  svg { display: block; width: 100%; height: auto; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; fill: var(--texto); }
+  svg .titulo { font-size: 21px; font-weight: 700; }
+  svg .unit { font-size: 14px; font-family: Consolas, "Cascadia Mono", monospace; fill: var(--destaque); }
+  svg .papel { font-size: 14px; fill: var(--suave); }
+  svg .caixa { fill: var(--destaque-fundo); stroke: var(--destaque); stroke-width: 2; }
+  svg .caixa-model { fill: var(--model-fundo); stroke: var(--model); stroke-width: 2; }
+  svg .caixa-banco { fill: var(--banco-fundo); stroke: var(--banco); stroke-width: 2; }
+  svg .seta { stroke: var(--texto); stroke-width: 2.5; fill: none; }
+  svg .ponta { fill: var(--texto); }
+  svg .ligacao { stroke: var(--model); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  svg .model-texto { fill: var(--model); }
+  svg .banco-texto { fill: var(--banco); }
+  svg .caixa-erro { fill: var(--erro-fundo); stroke: var(--erro); stroke-width: 2; }
+  svg .erro-texto { fill: var(--erro); }
+  svg .seta-erro { stroke: var(--erro); stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; }
+  svg .ponta-erro { fill: var(--erro); }
+  svg .passo { font-size: 18px; font-weight: 700; }
+  svg .linha { font-size: 15px; }
+  pre {
+    background: var(--codigo);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 14px 0 0;
+    font: 15px/1.5 Consolas, "Cascadia Mono", monospace;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  pre .comentario { color: var(--suave); }
+  pre .destaque-ok { color: var(--banco); font-weight: 700; }
+  pre .destaque-erro { color: var(--erro); font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; background: var(--cartao); border: 1px solid var(--borda); }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+  th { background: var(--codigo); font-size: 14px; }
+  .tabela { overflow-x: auto; }
+  code {
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 0.88em;
+    background: var(--codigo);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  ol { padding-left: 24px; }
+  li { margin: 6px 0; }
+  .passos li::marker { font-weight: 700; color: var(--destaque); }
+  a { color: var(--destaque); }
+  footer { margin-top: 48px; color: var(--suave); font-size: 14px; border-top: 1px solid var(--borda); padding-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Arquitetura do Pedido de Venda</h1>
+  <p class="suave">Delphi 13 · FireDAC · Firebird 5 · cada camada só conversa com a próxima.</p>
+</header>
+
+<h2>As camadas</h2>
+<div class="quadro">
+  <svg viewBox="0 0 1090 330" role="img" aria-labelledby="titulo-diagrama">
+    <title id="titulo-diagrama">View chama o Controller, que chama o Service, que usa os repositórios por interface; os repositórios usam a conexão da Infra para falar com o Firebird. O Model atravessa as camadas.</title>
+    <defs>
+      <marker id="ponta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path class="ponta" d="M0,0 L10,5 L0,10 z"/>
+      </marker>
+    </defs>
+
+    <!-- View -->
+    <rect class="caixa" x="10" y="30" width="150" height="120" rx="10"/>
+    <text class="titulo" x="85" y="70" text-anchor="middle">View</text>
+    <text class="unit" x="85" y="97" text-anchor="middle">View.PedidoVenda</text>
+    <text class="papel" x="85" y="122" text-anchor="middle">tela e eventos</text>
+
+    <!-- Controller -->
+    <rect class="caixa" x="195" y="30" width="150" height="120" rx="10"/>
+    <text class="titulo" x="270" y="70" text-anchor="middle">Controller</text>
+    <text class="unit" x="270" y="97" text-anchor="middle">Controller.Pedido</text>
+    <text class="papel" x="270" y="122" text-anchor="middle">monta as peças</text>
+
+    <!-- Service -->
+    <rect class="caixa" x="380" y="30" width="150" height="120" rx="10"/>
+    <text class="titulo" x="455" y="70" text-anchor="middle">Service</text>
+    <text class="unit" x="455" y="97" text-anchor="middle">Servico.Pedido</text>
+    <text class="papel" x="455" y="122" text-anchor="middle">regras e transação</text>
+
+    <!-- Repository -->
+    <rect class="caixa" x="565" y="30" width="150" height="120" rx="10"/>
+    <text class="titulo" x="640" y="70" text-anchor="middle">Repository</text>
+    <text class="unit" x="640" y="97" text-anchor="middle">Repositorio.*</text>
+    <text class="papel" x="640" y="122" text-anchor="middle">SQL com parâmetros</text>
+
+    <!-- Infra -->
+    <rect class="caixa" x="750" y="30" width="150" height="120" rx="10"/>
+    <text class="titulo" x="825" y="70" text-anchor="middle">Infra</text>
+    <text class="unit" x="825" y="97" text-anchor="middle">Infra.Conexao</text>
+    <text class="papel" x="825" y="122" text-anchor="middle">TFDConnection + INI</text>
+
+    <!-- Firebird (cilindro) -->
+    <path class="caixa-banco" d="M935,45 a70,16 0 0,1 140,0 v95 a70,16 0 0,1 -140,0 z"/>
+    <ellipse class="caixa-banco" cx="1005" cy="45" rx="70" ry="16"/>
+    <text class="titulo banco-texto" x="1005" y="98" text-anchor="middle">Firebird 5</text>
+    <text class="papel" x="1005" y="122" text-anchor="middle">PEDIDO_VENDA.FDB</text>
+
+    <!-- Setas -->
+    <line class="seta" x1="160" y1="90" x2="193" y2="90" marker-end="url(#ponta)"/>
+    <line class="seta" x1="345" y1="90" x2="378" y2="90" marker-end="url(#ponta)"/>
+    <line class="seta" x1="530" y1="90" x2="563" y2="90" marker-end="url(#ponta)"/>
+    <line class="seta" x1="715" y1="90" x2="748" y2="90" marker-end="url(#ponta)"/>
+    <line class="seta" x1="900" y1="90" x2="933" y2="90" marker-end="url(#ponta)"/>
+
+    <!-- Interface entre Service e Repository -->
+    <text class="papel" x="547" y="20" text-anchor="middle">por interface</text>
+    <text class="unit" x="547" y="174" text-anchor="middle">IRepositorioPedido</text>
+
+    <!-- Ligações com o Model -->
+    <line class="ligacao" x1="85" y1="150" x2="85" y2="230"/>
+    <line class="ligacao" x1="270" y1="150" x2="270" y2="230"/>
+    <line class="ligacao" x1="455" y1="150" x2="455" y2="230"/>
+    <line class="ligacao" x1="640" y1="150" x2="640" y2="230"/>
+
+    <!-- Model -->
+    <rect class="caixa-model" x="10" y="230" width="705" height="80" rx="10"/>
+    <text class="titulo model-texto" x="362" y="262" text-anchor="middle">Model</text>
+    <text class="unit" x="362" y="290" text-anchor="middle">TPedido · TPedidoItem · TCliente · TProduto</text>
+    <text class="papel" x="840" y="262" text-anchor="start">os dados que passam</text>
+    <text class="papel" x="840" y="284" text-anchor="start">entre as camadas; o total</text>
+    <text class="papel" x="840" y="306" text-anchor="start">do pedido mora aqui</text>
+  </svg>
+</div>
+
+<h2>O papel de cada uma</h2>
+<div class="tabela">
+<table>
+  <thead><tr><th>Camada</th><th>Unit</th><th>Faz</th><th>Não faz</th></tr></thead>
+  <tbody>
+    <tr><td><strong>View</strong></td><td><code>View.PedidoVenda</code></td><td>Mostra o pedido, lê os campos, trata teclado e botões, exibe mensagens</td><td>SQL, regra de negócio, transação</td></tr>
+    <tr><td><strong>Controller</strong></td><td><code>Controller.Pedido</code></td><td>Cria os repositórios e o Service com a conexão (monta as peças) e é a porta de entrada da tela</td><td>Regra de negócio</td></tr>
+    <tr><td><strong>Service</strong></td><td><code>Servico.Pedido</code></td><td>Valida o pedido, decide inserir ou atualizar, abre e fecha a transação</td><td>SQL, tela</td></tr>
+    <tr><td><strong>Repository</strong></td><td><code>Repositorio.Pedido</code>, <code>.Cliente</code>, <code>.Produto</code></td><td>Executa o SQL parametrizado e converte linhas em objetos</td><td>Transação, validação</td></tr>
+    <tr><td><strong>Infra</strong></td><td><code>Infra.Configuracao</code>, <code>Infra.Conexao</code></td><td>Lê o <code>config.ini</code> e cria a <code>TFDConnection</code></td><td>Saber o que é um pedido</td></tr>
+    <tr><td><strong>Model</strong></td><td><code>Model.Pedido</code>, <code>Model.PedidoItem</code>...</td><td>Guarda os dados e calcula o total (<code>TPedido.ValorTotal</code>)</td><td>Acessar banco ou tela</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Exemplo: o que acontece ao clicar em Gravar Pedido</h2>
+<div class="quadro">
+  <ol class="passos">
+    <li><strong>View:</strong> <code>btnGravarPedidoClick</code> copia a observação para o <code>TPedido</code> e chama <code>FController.Gravar(FPedido)</code>.</li>
+    <li><strong>Controller:</strong> repassa para o <code>TServicoPedido.Gravar</code>.</li>
+    <li><strong>Service:</strong> <code>ValidarPedido</code> (cliente e itens). Se o número é 0, o pedido é novo.</li>
+    <li><strong>Service:</strong> <code>StartTransaction</code> e chama <code>Inserir</code> ou <code>Atualizar</code> do <code>IRepositorioPedido</code>.</li>
+    <li><strong>Repository:</strong> <code>INSERT ... NEXT VALUE FOR SEQ_PEDIDO_NUMERO ... RETURNING</code> no cabeçalho e depois os itens, tudo com parâmetros.</li>
+    <li><strong>Firebird</strong> grava e devolve o número do pedido.</li>
+    <li><strong>Service:</strong> <code>Commit</code>. Em qualquer erro, <code>Rollback</code>, zera o número e os IDs, e repassa o erro (<code>raise</code>).</li>
+    <li><strong>View:</strong> mostra "Pedido N gravado com sucesso." ou a mensagem de erro, sem perder o que foi digitado.</li>
+  </ol>
+</div>
+
+<h2>A transação do Gravar (<code>TServicoPedido.Gravar</code>)</h2>
+<div class="quadro">
+  <svg viewBox="0 0 1000 500" role="img" aria-labelledby="titulo-transacao">
+    <title id="titulo-transacao">Valida o pedido, abre a transação, grava o cabeçalho, grava os itens e faz commit. Se der erro no cabeçalho ou nos itens, faz rollback, zera o número e os IDs e repassa o erro para a tela.</title>
+    <defs>
+      <marker id="ponta-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path class="ponta" d="M0,0 L10,5 L0,10 z"/>
+      </marker>
+      <marker id="ponta-erro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path class="ponta-erro" d="M0,0 L10,5 L0,10 z"/>
+      </marker>
+    </defs>
+
+    <!-- 1. Validar -->
+    <rect class="caixa" x="20" y="15" width="500" height="70" rx="10"/>
+    <text class="passo" x="40" y="44">1. ValidarPedido(APedido)</text>
+    <text class="papel" x="40" y="68">cliente e itens; se falhar aqui, nem abre a transação</text>
+
+    <!-- 2. StartTransaction -->
+    <rect class="caixa" x="20" y="110" width="500" height="70" rx="10"/>
+    <text class="passo" x="40" y="139">2. FConexao.StartTransaction</text>
+    <text class="papel" x="40" y="163">daqui em diante, tudo ou nada</text>
+
+    <!-- 3. Cabeçalho -->
+    <rect class="caixa" x="20" y="205" width="500" height="70" rx="10"/>
+    <text class="passo" x="40" y="234">3. Grava o cabeçalho</text>
+    <text class="unit" x="40" y="258">INSERT INTO PEDIDO ... RETURNING NUMERO_PEDIDO</text>
+
+    <!-- 4. Itens -->
+    <rect class="caixa" x="20" y="300" width="500" height="70" rx="10"/>
+    <text class="passo" x="40" y="329">4. Grava os itens (um INSERT por item)</text>
+    <text class="unit" x="40" y="353">INSERT INTO PEDIDO_ITEM ... com o número do pedido</text>
+
+    <!-- 5. Commit -->
+    <rect class="caixa-banco" x="20" y="395" width="500" height="70" rx="10"/>
+    <text class="passo banco-texto" x="40" y="424">5. FConexao.Commit</text>
+    <text class="papel" x="40" y="448">cabeçalho e itens ficam gravados juntos</text>
+
+    <!-- Setas do caminho feliz -->
+    <line class="seta" x1="270" y1="85" x2="270" y2="108" marker-end="url(#ponta-t)"/>
+    <line class="seta" x1="270" y1="180" x2="270" y2="203" marker-end="url(#ponta-t)"/>
+    <line class="seta" x1="270" y1="275" x2="270" y2="298" marker-end="url(#ponta-t)"/>
+    <line class="seta" x1="270" y1="370" x2="270" y2="393" marker-end="url(#ponta-t)"/>
+
+    <!-- Erro -->
+    <rect class="caixa-erro" x="640" y="190" width="345" height="200" rx="10"/>
+    <text class="passo erro-texto" x="660" y="222">Erro (except)</text>
+    <text class="linha" x="660" y="252">• FConexao.Rollback</text>
+    <text class="linha" x="660" y="279">• o banco desfaz cabeçalho e itens:</text>
+    <text class="linha" x="676" y="301">nada fica gravado pela metade</text>
+    <text class="linha" x="660" y="328">• zera o número e os IDs do objeto</text>
+    <text class="linha" x="660" y="355">• raise: a tela mostra o erro e</text>
+    <text class="linha" x="676" y="377">o pedido continua aberto</text>
+
+    <!-- Setas de erro -->
+    <path class="seta-erro" d="M520,240 L638,240" marker-end="url(#ponta-erro)"/>
+    <path class="seta-erro" d="M520,335 L638,335" marker-end="url(#ponta-erro)"/>
+    <text class="papel erro-texto" x="579" y="230" text-anchor="middle">erro</text>
+    <text class="papel erro-texto" x="579" y="325" text-anchor="middle">erro</text>
+  </svg>
+
+<pre><code>procedure TServicoPedido.Gravar(const APedido: TPedido);
+begin
+  ValidarPedido(APedido);
+
+  LPedidoNovo := APedido.NumeroPedido = 0;
+
+  <span class="destaque-ok">FConexao.StartTransaction;</span>
+  try
+    if LPedidoNovo then
+      FRepositorioPedido.Inserir(APedido)      <span class="comentario">// cabeçalho + itens</span>
+    else
+      FRepositorioPedido.Atualizar(APedido);   <span class="comentario">// UPDATE + apaga e regrava os itens</span>
+
+    <span class="destaque-ok">FConexao.Commit;</span>
+  except
+    <span class="destaque-erro">FConexao.Rollback;</span>
+
+    if LPedidoNovo then
+      APedido.NumeroPedido := 0;
+    for LItem in APedido.Itens do
+      LItem.Id := 0;
+
+    <span class="destaque-erro">raise;</span>
+  end;
+end;</code></pre>
+  <p class="suave">A transação fica no Service porque só ele sabe que gravar um pedido envolve duas tabelas. Os repositórios só executam o SQL. Na edição o fluxo é o mesmo: <code>Atualizar</code> faz o <code>UPDATE</code> do cabeçalho, apaga os itens e grava de novo, dentro da mesma transação.</p>
+</div>
+
+<h2>Como a conexão chega até o repositório</h2>
+<div class="quadro">
+  <ol class="passos">
+    <li><code>PedidoVenda.dpr</code> lê o <code>config.ini</code> (<code>TConfiguracao</code>) e cria a conexão (<code>TConexao</code>), uma só para o sistema.</li>
+    <li>Passa a conexão para a principal: <code>FrmPrincipal.Conexao</code>.</li>
+    <li>A principal abre a tela já com a conexão: <code>TFrmBase.Create(AOwner, AConexao)</code>.</li>
+    <li>A tela cria o controller: <code>TControllerPedido.Create(Conexao)</code>.</li>
+    <li>O controller cria os repositórios e entrega ao Service pelas interfaces: <code>TServicoPedido.Create(AConexao, LRepositorioCliente, LRepositorioProduto, LRepositorioPedido)</code>.</li>
+  </ol>
+  <p class="suave">Ninguém cria a sua própria conexão nem o seu próprio repositório: tudo chega pelo construtor (injeção de dependência). O Service conhece só as interfaces, então dá para trocar o repositório, por exemplo por um falso em teste, sem mexer no Service.</p>
+</div>
+
+<footer>Pedido de Venda · Thiago Fassina · veja também a <a href="trilha.html">trilha</a> e as <a href="perguntas-e-respostas.html">perguntas e respostas</a>.</footer>
+
+</main>
+</body>
+</html>
