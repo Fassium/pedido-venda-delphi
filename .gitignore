@@ -79,7 +79,6 @@ __recovery/
 *.stat
 
 # Projeto
-doc/*.pdf
 bin/*
 !bin/fbclient.dll
 !bin/msvcp140.dll
