@@ -20,7 +20,7 @@ O passo a passo da construção, com o que foi feito e o que falta em cada etapa
 
 ## 1. Instalar o Firebird
 
-Baixe em [firebirdsql.org](https://firebirdsql.org/en/firebird-5-0/) o instalador Windows x64 e instale com as opções padrão. Anote a senha do SYSDBA.
+Baixe em [firebirdsql.org](https://firebirdsql.org/en/firebird-5-0/) o instalador **`Firebird-5.0.4.1812-0-windows-x64.exe`** (a versão usada no projeto) e instale com as opções padrão. Anote a senha do SYSDBA.
 
 ## 2. Criar o banco
 

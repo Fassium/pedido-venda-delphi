@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perguntas e Respostas</title>
+<style>
+  :root {
+    --fundo: #f4f6f9;
+    --cartao: #ffffff;
+    --texto: #1f2933;
+    --suave: #5b6775;
+    --borda: #d9dee5;
+    --destaque: #3b5b82;
+    --codigo: #eef1f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #14181d;
+      --cartao: #1d232a;
+      --texto: #e4e8ed;
+      --suave: #9aa5b1;
+      --borda: #2f3842;
+      --destaque: #8fb3df;
+      --codigo: #262d35;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 15px/1.6 "Segoe UI", system-ui, sans-serif;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { border-bottom: 3px solid var(--destaque); padding-bottom: 16px; margin-bottom: 24px; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  h2 { margin: 40px 0 12px; font-size: 21px; color: var(--destaque); }
+  h3 { margin: 0 0 6px; font-size: 16px; }
+  p { margin: 8px 0; }
+  .autoria { color: var(--suave); margin: 4px 0 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; }
+  nav a {
+    color: var(--destaque);
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    padding: 4px 12px;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .pergunta {
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-left: 5px solid var(--destaque);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  ul, ol { margin: 8px 0; padding-left: 22px; }
+  li { margin: 3px 0; }
+  code {
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 13px;
+    background: var(--codigo);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--codigo);
+    border-radius: 6px;
+    padding: 10px 14px;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
+  pre code { padding: 0; background: none; }
+  table { width: 100%; border-collapse: collapse; border: 1px solid var(--borda); margin: 10px 0; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+  th { background: var(--codigo); font-size: 13px; }
+  .tabela { overflow-x: auto; }
+  a { color: var(--destaque); }
+  footer { margin-top: 48px; color: var(--suave); font-size: 13px; border-top: 1px solid var(--borda); padding-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Perguntas e respostas sobre o projeto</h1>
+  <p>Perguntas que podem surgir numa entrevista sobre este teste técnico, com respostas curtas para falar em poucos minutos.</p>
+  <p class="autoria"><strong>Autor:</strong> Thiago Fassina</p>
+</header>
+
+<nav>
+  <a href="#teste">1. Sobre o teste</a>
+  <a href="#banco">2. Ambiente e banco</a>
+  <a href="#arquitetura">3. Arquitetura</a>
+  <a href="#testes">4. Testes (DUnitX)</a>
+  <a href="#processo">5. Processo</a>
+</nav>
+
+<h2 id="teste">1. Sobre o teste</h2>
+
+<div class="pergunta">
+  <h3>Para qual empresa foi o teste?</h3>
+  <p>Processo seletivo da <strong>Dev Hunt</strong> (consultoria de recrutamento de tecnologia) para a <strong>Casa do Construtor</strong>. Vaga de desenvolvedor Delphi, remota, com espanhol.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Qual o ramo de atividade da empresa?</h3>
+  <p>A Casa do Construtor é uma rede de franquias de <strong>locação de equipamentos para construção civil</strong> (betoneiras, andaimes, compactadores, ferramentas elétricas etc.), com lojas em todo o Brasil. Um sistema de pedido de venda, com cliente, produto, itens e total, é o dia a dia de um ERP desse ramo.</p>
+</div>
+
+<div class="pergunta">
+  <h3>O que o teste pedia?</h3>
+  <p>Uma tela de Pedido de Venda em Delphi com FireDAC e Firebird: cliente por código, itens com produto, quantidade e valor, grid com edição e exclusão pelo teclado, total do pedido, gravação com transação, <code>config.ini</code>, script do banco, README com roteiro de testes e commits pequenos. Bônus: carregar pedido, cancelar pedido e testes com DUnitX. Fiz os obrigatórios e os três bônus.</p>
+</div>
+
+<h2 id="banco">2. Ambiente e banco</h2>
+
+<div class="pergunta">
+  <h3>Por que o projeto é Win64?</h3>
+  <ul>
+    <li>O executável só carrega uma DLL da <strong>mesma arquitetura</strong>: um exe 64 bits não carrega o <code>fbclient.dll</code> de 32. Instalei o Firebird 5 x64 e mando o <code>fbclient.dll</code> x64 no <code>bin</code>.</li>
+    <li>64 bits é o padrão do Windows hoje e tira o limite de memória de um processo 32 bits.</li>
+    <li>O <strong>servidor</strong> Firebird pode ser 32 ou 64 bits: o sistema fala com ele por TCP (porta 3050). Só o <strong>cliente</strong> (<code>fbclient.dll</code>) precisa ser x64 como o exe.</li>
+    <li>O <code>fbclient.dll</code> 5.0 depende do runtime do Visual C++, então as três DLLs dele (<code>msvcp140</code>, <code>vcruntime140</code>, <code>vcruntime140_1</code>) vão junto no <code>bin</code>. Assim roda mesmo sem o VC++ Redistributable instalado.</li>
+  </ul>
+</div>
+
+<div class="pergunta">
+  <h3>Por que Firebird 3.0 ou mais novo?</h3>
+  <p>O <code>db.sql</code> usa <code>GENERATED BY DEFAULT AS IDENTITY</code> no <code>PEDIDO_ITEM.ID</code>, que só existe a partir do Firebird 3.0.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Como o número do pedido é gerado?</h3>
+  <p>Com uma <code>SEQUENCE</code> (<code>NEXT VALUE FOR SEQ_PEDIDO_NUMERO</code>) no próprio <code>INSERT</code>, e o número volta pelo <code>RETURNING</code>. Não precisa de trigger nem de um <code>SELECT</code> a mais. A sequence não volta atrás no rollback, então o número é crescente, mas pode pular.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que os índices das FKs têm nome com <code>USING INDEX</code>?</h3>
+  <p>No Firebird a FK já cria um índice. Se eu criasse outro <code>CREATE INDEX</code> na mesma coluna, ficaria duplicado. Com <code>USING INDEX</code> o índice da FK ganha um nome padronizado (<code>IDX_...</code>) e o enunciado é atendido sem duplicar.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que não usou <code>ON DELETE CASCADE</code>?</h3>
+  <p>Para a exclusão ficar explícita no código: o cancelamento apaga os itens e depois o pedido, na mesma transação. Com cascade, alguém que apagasse um pedido direto no banco levaria os itens junto sem perceber.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Como o sistema sabe onde está o banco?</h3>
+  <p>Pelo <code>bin\config.ini</code>, lido ao abrir o sistema (<code>Infra.Configuracao</code>). A conexão é criada em código (<code>Infra.Conexao</code>), sem conexão em design-time. O <code>config.ini</code> guarda senha, então não vai para o Git; o repositório tem o <code>config.ini.example</code> para copiar.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que <code>Currency</code> e não <code>Double</code>?</h3>
+  <p><code>Currency</code> é ponto fixo com 4 casas: soma e multiplicação de dinheiro dão o valor exato. <code>Double</code> é ponto flutuante e pode gerar diferenças de centavos. No banco, <code>NUMERIC(15,2)</code>.</p>
+</div>
+
+<h2 id="arquitetura">3. Arquitetura</h2>
+
+<div class="pergunta">
+  <h3>Por que separar em View, Controller, Service e Repository?</h3>
+  <p>Cada camada tem uma responsabilidade só:</p>
+  <div class="tabela">
+  <table>
+    <thead><tr><th>Camada</th><th>Faz</th><th>Exemplo</th></tr></thead>
+    <tbody>
+      <tr><td><strong>View</strong></td><td>Mostra e lê dados da tela, sem SQL e sem regra</td><td><code>View.PedidoVenda</code></td></tr>
+      <tr><td><strong>Controller</strong></td><td>Monta as peças (cria os repositórios e o Service) e é a porta de entrada da tela</td><td><code>Controller.Pedido</code></td></tr>
+      <tr><td><strong>Service</strong></td><td>Regra de negócio e transação</td><td><code>Servico.Pedido</code></td></tr>
+      <tr><td><strong>Repository</strong></td><td>Só o SQL de uma tabela ou agregado</td><td><code>Repositorio.Pedido</code></td></tr>
+      <tr><td><strong>Model</strong></td><td>As entidades e a regra do total</td><td><code>TPedido</code>, <code>TPedidoItem</code></td></tr>
+      <tr><td><strong>Infra</strong></td><td>Configuração e conexão</td><td><code>Infra.Conexao</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>O ganho é manutenção: trocar a tela não mexe no SQL, trocar o banco não mexe na tela, e a regra fica num lugar só, onde dá para testar.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que os repositórios têm interface?</h3>
+  <p>O Service recebe <code>IRepositorioPedido</code>, e não a classe concreta (inversão de dependência, o "D" do SOLID). Assim dá para trocar o repositório, por exemplo por um falso em teste, sem mudar o Service. A interface também gerencia a memória por contagem de referência.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que a transação fica no Service e não no Repository?</h3>
+  <p>Porque só o Service sabe que gravar um pedido envolve duas tabelas (cabeçalho e itens). Se cada repositório abrisse a sua transação, um erro no item deixaria o cabeçalho gravado pela metade. No Service: <code>StartTransaction</code>, grava tudo, <code>Commit</code>; em qualquer erro, <code>Rollback</code> e a mensagem aparece sem perder o que foi digitado.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que o total fica no Model?</h3>
+  <p><code>TPedido.ValorTotal</code> sempre soma os itens na hora em que é lido; não é um valor guardado. Então incluir, alterar ou excluir um item nunca deixa o total errado, e a correção 4.2 (total ao excluir item) sai certa por construção. A tela só exibe.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que o grid dos itens é um <code>TStringGrid</code> e a lista é um <code>TDBGrid</code>?</h3>
+  <p>Os itens vivem no objeto <code>TPedido</code> até o Gravar; o grid só desenha a lista (linha N = item N-1). A lista de pedidos vem de um <code>SELECT</code> com <code>JOIN</code>, então ela é um <code>TFDMemTable</code> ligado a um <code>TDBGrid</code>.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Como funciona a edição de um pedido já gravado?</h3>
+  <p><code>UPDATE</code> no cabeçalho, apaga os itens e grava de novo, tudo na mesma transação. É mais simples e seguro que comparar item a item; o custo é os itens ganharem IDs novos. Se o pedido sumiu do banco (<code>RowsAffected = 0</code>), a gravação é desfeita.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que as queries são parametrizadas?</h3>
+  <p>Para evitar SQL injection e deixar o banco reaproveitar o plano da consulta. Até o filtro da lista, que monta o <code>WHERE</code> conforme o que foi digitado, passa o valor por parâmetro.</p>
+</div>
+
+<h2 id="testes">4. Testes unitários (DUnitX)</h2>
+
+<div class="pergunta">
+  <h3>Qual a função da classe de teste <code>TTestePedido</code>?</h3>
+  <p>É a <em>fixture</em> (<code>[TestFixture]</code>) que agrupa os testes da regra do total do pedido. Antes de cada teste, o <code>[Setup]</code> cria um <code>TPedido</code> novo; depois de cada um, o <code>[TearDown]</code> libera. Assim um teste nunca interfere no outro. Os 5 testes cobrem o que a tela faz com o total: pedido vazio, total do item, soma dos itens, atualizar item e excluir item.</p>
+  <p>Ela testa só o Model, sem banco e sem tela. Por isso roda em milissegundos e em qualquer máquina.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Que erro esses testes pegariam?</h3>
+  <p>Qualquer mudança que quebre o total: alguém passar a guardar o total num campo e esquecer de atualizar ao excluir; trocar <code>Currency</code> por <code>Double</code>; ou mudar a lista para <code>TList</code> e o <code>Delete</code> deixar de liberar o item.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que <code>Assert.AreEqual&lt;Currency&gt;</code>?</h3>
+  <p>O genérico força a comparação como <code>Currency</code>, que é exata. Sem ele, o compilador pode escolher a versão com <code>Extended</code>, que é ponto flutuante. O valor esperado vem primeiro, para a mensagem de falha sair certa.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Por que o projeto de testes é separado?</h3>
+  <p>Para o executável que vai ao cliente não levar código de teste. O projeto de testes usa só as units do Model (<code>..\src\pedidos\Model.*.pas</code>) e gera o exe em <code>tests\bin</code>, fora do Git.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Qual o resultado de colocar esses testes num pipeline de CI/CD?</h3>
+  <p>O exe de testes já foi feito para isso: termina com <strong>código de saída diferente de zero</strong> quando algum teste falha, e gera o <code>dunitx-results.xml</code> no formato NUnit. Num pipeline (Jenkins, GitHub Actions ou Azure DevOps, com um agente Windows que tenha o Delphi instalado):</p>
+  <ol>
+    <li>a cada push, o pipeline compila o projeto de testes com MSBuild;</li>
+    <li>roda o exe; se um teste falhar, o código de saída quebra o build;</li>
+    <li>publica o XML como relatório de testes.</li>
+  </ol>
+<pre><code>call "C:\Program Files (x86)\Embarcadero\Studio\37.0\bin\rsvars.bat"
+msbuild tests\PedidoVendaTestes.dproj /t:Build /p:Config=Release /p:Platform=Win64
+tests\bin\PedidoVendaTestes.exe</code></pre>
+  <p>O resultado: um erro na regra do total é barrado <strong>antes</strong> de chegar à branch principal e ao cliente; o time ganha segurança para refatorar e um relatório do que foi testado em cada versão. O <code>.dpr</code> gerado pelo DUnitX tem um <code>{$IFNDEF CI}</code> para nunca pausar esperando o Enter quando compilado para o pipeline.</p>
+</div>
+
+<h2 id="processo">5. Processo</h2>
+
+<div class="pergunta">
+  <h3>Por que tantos commits pequenos?</h3>
+  <p>Cada commit é uma mudança que dá para entender e desfazer sozinha. O histórico conta a evolução, por exemplo a Observação (4.1) entrou num commit próprio, e a <a href="trilha.html">trilha</a> liga cada passo aos seus commits.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Encontrou algum problema difícil?</h3>
+  <p>Sim: o erro <code>[FB]-338</code> ao gravar. O tipo de um parâmetro de valor mudava depois do <code>Prepare</code>. A solução foi declarar os parâmetros de valor como <code>ftCurrency</code> antes de preparar. O rollback no erro provou que o cabeçalho não ficava gravado pela metade.</p>
+</div>
+
+<div class="pergunta">
+  <h3>Como usou IA no projeto?</h3>
+  <p>Fiz em <em>pair programming</em> com o Claude Code. Eu conduzi as decisões, testei cada passo no Delphi, encontrei e reportei os erros e fiz todos os commits. A IA propôs a estrutura em camadas, revisou o código, explicou o porquê de cada escolha e escreveu parte do código a pedido. Os testes DUnitX eu digitei, guiado passo a passo, porque era meu primeiro contato com o framework.</p>
+</div>
+
+<div class="pergunta">
+  <h3>O que você melhoraria com mais tempo?</h3>
+  <ul>
+    <li><strong>Login real:</strong> tabela <code>USUARIO</code> com senha em hash e salt; hoje a credencial é fixa, só demonstrativa.</li>
+    <li><strong>Usuário próprio do banco</strong> com <code>GRANT</code> mínimo, em vez do <code>SYSDBA</code>.</li>
+    <li><strong>Testes do Service</strong> com repositórios falsos, aproveitando as interfaces, para testar validações e rollback sem banco.</li>
+    <li><strong>Pipeline de CI</strong> rodando os testes a cada push.</li>
+    <li><strong>Release no GitHub</strong> com um zip pronto (exe, DLLs e <code>config.ini.example</code>).</li>
+  </ul>
+</div>
+
+<footer>Documento de estudo do projeto; o passo a passo da construção está na <a href="trilha.html">trilha</a>.</footer>
+
+</main>
+</body>
+</html>
