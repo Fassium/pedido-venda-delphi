@@ -8,7 +8,9 @@ O passo a passo da construção, com o que foi feito e o que falta em cada etapa
 
 ## Vídeos
 
-1. **Instalando e executando o sistema** (Firebird, banco, `config.ini`, compilar e uma demonstração seguindo o roteiro): link em breve
+[Playlist com os vídeos do projeto](https://www.youtube.com/playlist?list=PLSUAOf-LUkiI)
+
+1. **Instalando e executando o sistema** (Firebird, banco, `config.ini`, compilar e uma demonstração seguindo o roteiro): [assistir no YouTube](https://www.youtube.com/watch?v=LeIZvbhd8yk) (11 min)
 2. **Arquitetura e código-fonte** (as camadas e o porquê de cada decisão): link em breve
 3. **Testes unitários com DUnitX** (o que cada teste cobre e como rodar): link em breve
 
