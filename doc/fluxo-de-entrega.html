@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluxo de Entrega</title>
+<style>
+  :root {
+    --fundo: #f4f6f9;
+    --cartao: #ffffff;
+    --texto: #1f2933;
+    --suave: #5b6775;
+    --borda: #d9dee5;
+    --destaque: #3b5b82;
+    --destaque-fundo: #e6eefb;
+    --ci: #1f7a4d;
+    --ci-fundo: #e3f4ea;
+    --erro: #b42318;
+    --erro-fundo: #fde8e7;
+    --codigo: #eef1f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --fundo: #14181d;
+      --cartao: #1d232a;
+      --texto: #e4e8ed;
+      --suave: #9aa5b1;
+      --borda: #2f3842;
+      --destaque: #8fb3df;
+      --destaque-fundo: #1e2a3d;
+      --ci: #6fd19c;
+      --ci-fundo: #173526;
+      --erro: #ff8a80;
+      --erro-fundo: #3a1d1b;
+      --codigo: #262d35;
+    }
+  }
+  :root[data-theme="dark"] {
+    --fundo: #14181d;
+    --cartao: #1d232a;
+    --texto: #e4e8ed;
+    --suave: #9aa5b1;
+    --borda: #2f3842;
+    --destaque: #8fb3df;
+    --destaque-fundo: #1e2a3d;
+    --ci: #6fd19c;
+    --ci-fundo: #173526;
+    --erro: #ff8a80;
+    --erro-fundo: #3a1d1b;
+    --codigo: #262d35;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 17px/1.6 "Segoe UI", system-ui, sans-serif;
+  }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { border-bottom: 3px solid var(--destaque); padding-bottom: 14px; margin-bottom: 24px; }
+  h1 { margin: 0 0 4px; font-size: 30px; }
+  h2 { margin: 40px 0 12px; font-size: 23px; color: var(--destaque); }
+  p { margin: 8px 0; }
+  .suave { color: var(--suave); }
+  .quadro {
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  svg { display: block; width: 100%; height: auto; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; fill: var(--texto); }
+  svg .numero { font-size: 15px; font-weight: 700; fill: var(--destaque); }
+  svg .titulo { font-size: 21px; font-weight: 700; }
+  svg .papel { font-size: 14px; fill: var(--suave); }
+  svg .caixa { fill: var(--destaque-fundo); stroke: var(--destaque); stroke-width: 2; }
+  svg .caixa-ci { fill: var(--ci-fundo); stroke: var(--ci); stroke-width: 3; }
+  svg .ci-texto { fill: var(--ci); }
+  svg .seta { stroke: var(--texto); stroke-width: 2.5; fill: none; }
+  svg .ponta { fill: var(--texto); }
+  svg .seta-erro { stroke: var(--erro); stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; }
+  svg .ponta-erro { fill: var(--erro); }
+  svg .erro-texto { fill: var(--erro); font-size: 14px; font-weight: 600; }
+  svg .barra-texto { font-size: 16px; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; background: var(--cartao); border: 1px solid var(--borda); }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+  th { background: var(--codigo); font-size: 14px; }
+  tr.ci td { background: var(--ci-fundo); }
+  .tabela { overflow-x: auto; }
+  code {
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 0.88em;
+    background: var(--codigo);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--codigo);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 12px 0;
+    font: 15px/1.5 Consolas, "Cascadia Mono", monospace;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .motivos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .motivo {
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-left: 5px solid var(--ci);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .motivo strong { display: block; font-size: 18px; margin-bottom: 4px; }
+  ol { padding-left: 24px; }
+  li { margin: 6px 0; }
+  a { color: var(--destaque); }
+  footer { margin-top: 48px; color: var(--suave); font-size: 14px; border-top: 1px solid var(--borda); padding-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Do problema do usuário até a produção</h1>
+  <p class="suave">O caminho de uma correção numa empresa de software, e onde entram os testes automatizados.</p>
+</header>
+
+<h2>O fluxo</h2>
+<div class="quadro">
+  <svg viewBox="0 0 1000 500" role="img" aria-labelledby="titulo-fluxo">
+    <title id="titulo-fluxo">Usuário encontra um problema, suporte registra, produto prioriza, documentação descreve, dev desenvolve, CI/CD compila e roda os testes automatizados, qualidade valida e a versão vai para produção. Se os testes falham ou a qualidade reprova, volta para o dev.</title>
+    <defs>
+      <marker id="ponta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path class="ponta" d="M0,0 L10,5 L0,10 z"/>
+      </marker>
+      <marker id="ponta-erro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path class="ponta-erro" d="M0,0 L10,5 L0,10 z"/>
+      </marker>
+    </defs>
+
+    <!-- Linha 1 -->
+    <rect class="caixa" x="20" y="30" width="210" height="110" rx="10"/>
+    <text class="numero" x="40" y="58">1</text>
+    <text class="titulo" x="125" y="88" text-anchor="middle">Usuário</text>
+    <text class="papel" x="125" y="114" text-anchor="middle">encontra um problema</text>
+
+    <rect class="caixa" x="265" y="30" width="210" height="110" rx="10"/>
+    <text class="numero" x="285" y="58">2</text>
+    <text class="titulo" x="370" y="88" text-anchor="middle">Suporte</text>
+    <text class="papel" x="370" y="114" text-anchor="middle">registra o chamado</text>
+
+    <rect class="caixa" x="510" y="30" width="210" height="110" rx="10"/>
+    <text class="numero" x="530" y="58">3</text>
+    <text class="titulo" x="615" y="88" text-anchor="middle">Produto</text>
+    <text class="papel" x="615" y="114" text-anchor="middle">analisa e prioriza</text>
+
+    <rect class="caixa" x="755" y="30" width="210" height="110" rx="10"/>
+    <text class="numero" x="775" y="58">4</text>
+    <text class="titulo" x="860" y="88" text-anchor="middle">Documentação</text>
+    <text class="papel" x="860" y="114" text-anchor="middle">descreve o que fazer</text>
+
+    <line class="seta" x1="230" y1="85" x2="263" y2="85" marker-end="url(#ponta)"/>
+    <line class="seta" x1="475" y1="85" x2="508" y2="85" marker-end="url(#ponta)"/>
+    <line class="seta" x1="720" y1="85" x2="753" y2="85" marker-end="url(#ponta)"/>
+
+    <!-- Da linha 1 para a linha 2 -->
+    <path class="seta" d="M860,140 V200 H125 V258" marker-end="url(#ponta)"/>
+
+    <!-- Linha 2 -->
+    <rect class="caixa" x="20" y="260" width="210" height="110" rx="10"/>
+    <text class="numero" x="40" y="288">5</text>
+    <text class="titulo" x="125" y="318" text-anchor="middle">Dev</text>
+    <text class="papel" x="125" y="344" text-anchor="middle">corrige e escreve o teste</text>
+
+    <rect class="caixa-ci" x="265" y="260" width="210" height="110" rx="10"/>
+    <text class="numero ci-texto" x="285" y="288">6</text>
+    <text class="titulo ci-texto" x="370" y="318" text-anchor="middle">CI/CD</text>
+    <text class="papel" x="370" y="344" text-anchor="middle">compila e roda os testes</text>
+
+    <rect class="caixa" x="510" y="260" width="210" height="110" rx="10"/>
+    <text class="numero" x="530" y="288">7</text>
+    <text class="titulo" x="615" y="318" text-anchor="middle">Qualidade</text>
+    <text class="papel" x="615" y="344" text-anchor="middle">valida a versão</text>
+
+    <rect class="caixa" x="755" y="260" width="210" height="110" rx="10"/>
+    <text class="numero" x="775" y="288">8</text>
+    <text class="titulo" x="860" y="318" text-anchor="middle">Produção</text>
+    <text class="papel" x="860" y="344" text-anchor="middle">o usuário recebe a correção</text>
+
+    <line class="seta" x1="230" y1="315" x2="263" y2="315" marker-end="url(#ponta)"/>
+    <line class="seta" x1="475" y1="315" x2="508" y2="315" marker-end="url(#ponta)"/>
+    <line class="seta" x1="720" y1="315" x2="753" y2="315" marker-end="url(#ponta)"/>
+
+    <!-- Voltas para o dev -->
+    <path class="seta-erro" d="M370,370 C370,420 155,420 155,374" marker-end="url(#ponta-erro)"/>
+    <text class="erro-texto" x="262" y="428" text-anchor="middle">teste falhou: volta em minutos</text>
+
+    <path class="seta-erro" d="M615,370 C615,485 95,485 95,374" marker-end="url(#ponta-erro)"/>
+    <text class="erro-texto" x="355" y="478" text-anchor="middle">qualidade reprovou: volta em dias</text>
+  </svg>
+</div>
+
+<h2>Cada etapa</h2>
+<div class="tabela">
+<table>
+  <thead><tr><th>#</th><th>Etapa</th><th>O que acontece</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Usuário</strong></td><td>Percebe um problema, por exemplo o total do pedido errado ao excluir um item.</td></tr>
+    <tr><td>2</td><td><strong>Suporte</strong></td><td>Atende, reproduz o problema e abre o chamado com os passos.</td></tr>
+    <tr><td>3</td><td><strong>Produto</strong></td><td>Avalia o impacto no negócio e decide a prioridade.</td></tr>
+    <tr><td>4</td><td><strong>Documentação</strong></td><td>Descreve o comportamento esperado (história, regra, critério de aceite).</td></tr>
+    <tr><td>5</td><td><strong>Dev</strong></td><td>Corrige o código e escreve um teste automatizado que prova a correção.</td></tr>
+    <tr class="ci"><td>6</td><td><strong>CI/CD</strong></td><td>A cada envio de código, compila e roda todos os testes automatizados. Se um falhar, a versão para aqui.</td></tr>
+    <tr><td>7</td><td><strong>Qualidade</strong></td><td>Testa a versão como o usuário usaria: fluxos, telas e casos que a automação não cobre.</td></tr>
+    <tr><td>8</td><td><strong>Produção</strong></td><td>A versão é liberada e o usuário recebe a correção.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>O que o CI/CD faz neste projeto</h2>
+<div class="quadro">
+  <ol>
+    <li>Compila o projeto de testes com MSBuild.</li>
+    <li>Roda o <code>PedidoVendaTestes.exe</code>, que executa os 5 testes do total do pedido.</li>
+    <li>Se algum teste falha, o exe termina com código de erro e o pipeline <strong>para a versão</strong>.</li>
+    <li>Publica o <code>dunitx-results.xml</code> como relatório dos testes.</li>
+  </ol>
+<pre><code>call "C:\Program Files (x86)\Embarcadero\Studio\37.0\bin\rsvars.bat"
+msbuild tests\PedidoVendaTestes.dproj /t:Build /p:Config=Release /p:Platform=Win64
+tests\bin\PedidoVendaTestes.exe</code></pre>
+  <p class="suave">Ferramentas comuns para isso: Jenkins, GitHub Actions, Azure DevOps ou GitLab CI, com um agente Windows que tenha o Delphi instalado.</p>
+</div>
+
+<h2>Quanto mais tarde o erro aparece, mais caro ele fica</h2>
+<div class="quadro">
+  <svg viewBox="0 0 1000 250" role="img" aria-labelledby="titulo-custo">
+    <title id="titulo-custo">O custo de corrigir um erro cresce a cada etapa: no dev é pequeno, no CI/CD um pouco maior, na qualidade maior e em produção é o mais caro.</title>
+    <text class="barra-texto" x="20" y="45">No dev</text>
+    <rect class="caixa-ci" x="190" y="25" width="90" height="30" rx="6"/>
+    <text class="papel" x="295" y="46">o teste avisa na hora</text>
+
+    <text class="barra-texto" x="20" y="100">No CI/CD</text>
+    <rect class="caixa-ci" x="190" y="80" width="170" height="30" rx="6"/>
+    <text class="papel" x="375" y="101">volta em minutos, ninguém de fora vê</text>
+
+    <text class="barra-texto" x="20" y="155">Na qualidade</text>
+    <rect class="caixa" x="190" y="135" width="380" height="30" rx="6"/>
+    <text class="papel" x="585" y="156">volta em dias, refaz a validação</text>
+
+    <text class="barra-texto" x="20" y="210">Em produção</text>
+    <rect class="caixa-ci" x="190" y="190" width="600" height="30" rx="6" style="fill: var(--erro-fundo); stroke: var(--erro);"/>
+    <text class="papel" x="805" y="211">cliente afetado, dado errado</text>
+  </svg>
+  <p class="suave">As barras mostram a ideia, não uma medida exata: o mesmo erro custa pouco quando um teste o pega no dev e muito quando chega ao cliente.</p>
+</div>
+
+<h2>Por que os testes automatizados são importantes</h2>
+<div class="motivos">
+  <div class="motivo"><strong>Pegam o erro cedo</strong>Um erro barrado no CI/CD volta para o dev em minutos, antes de chegar à qualidade e ao cliente.</div>
+  <div class="motivo"><strong>Evitam regressão</strong>Uma correção nova não pode quebrar o que já funcionava. Os testes antigos continuam rodando a cada versão.</div>
+  <div class="motivo"><strong>Rodam sempre igual</strong>O teste não esquece um passo e não se cansa. Os 5 testes deste projeto rodam em milissegundos.</div>
+  <div class="motivo"><strong>Dão segurança para mudar</strong>Dá para refatorar e melhorar o código sabendo que, se algo quebrar, o teste avisa.</div>
+  <div class="motivo"><strong>Liberam a qualidade</strong>O que é repetitivo fica com a máquina; a equipe de qualidade testa o que precisa de olhar humano.</div>
+  <div class="motivo"><strong>Documentam a regra</strong>O nome do teste diz o comportamento esperado, por exemplo <code>PedidoDeveRecalcularAoExcluirItem</code>.</div>
+</div>
+
+<h2>Exemplo com este projeto</h2>
+<div class="quadro">
+  <p>Imagine que alguém muda o <code>TPedido</code> para guardar o total num campo, para "ganhar desempenho", e esquece de atualizar esse campo ao excluir um item.</p>
+  <ol>
+    <li>No dev, o código compila e a tela parece funcionar.</li>
+    <li>No CI/CD, o teste <code>PedidoDeveRecalcularAoExcluirItem</code> falha: esperava 12,75 e recebeu 33,75.</li>
+    <li>O pipeline para a versão e avisa o dev, que corrige em minutos.</li>
+    <li>O erro <strong>nunca chega</strong> à qualidade nem ao cliente.</li>
+  </ol>
+  <p class="suave">Sem o teste, esse mesmo erro só apareceria quando um usuário notasse o total errado num pedido gravado, e todo o fluxo começaria de novo na etapa 1.</p>
+</div>
+
+<footer>Pedido de Venda · Thiago Fassina · veja também a <a href="arquitetura.html">arquitetura</a> e as <a href="perguntas-e-respostas.html">perguntas e respostas</a>.</footer>
+
+</main>
+</body>
+</html>
