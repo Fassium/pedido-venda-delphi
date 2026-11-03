@@ -106,9 +106,9 @@
 
 <section class="resumo">
   <div class="numero"><strong>9 de 9</strong><span>passos obrigatórios concluídos</span></div>
-  <div class="numero"><strong>2 de 3</strong><span>bônus concluídos</span></div>
-  <div class="numero"><strong>51</strong><span>commits pequenos</span></div>
-  <div class="numero"><strong>~1h a 2h</strong><span>falta: testes DUnitX; depois, os vídeos</span></div>
+  <div class="numero"><strong>3 de 3</strong><span>bônus concluídos</span></div>
+  <div class="numero"><strong>61</strong><span>commits pequenos</span></div>
+  <div class="numero"><strong>5</strong><span>testes DUnitX passando; falta: os vídeos</span></div>
 </section>
 <div class="barra" aria-label="9 de 9 passos obrigatórios concluídos"><div style="width: 100%"></div></div>
 
@@ -260,8 +260,8 @@
   <p class="commits"><code>2396656</code> <code>f52ac09</code></p>
 </article>
 
-<article class="passo pendente">
-  <div class="topo"><h3>12. Documentação final</h3><span class="selo pendente">Em andamento</span></div>
+<article class="passo feito">
+  <div class="topo"><h3>12. Documentação final</h3><span class="selo feito">Concluído</span></div>
   <ul>
     <li>Feito: README com criar o banco, configurar o INI, executar, roteiro de testes, decisões técnicas e autoria.</li>
     <li>Feito: <code>config.ini.example</code> na raiz, com as mesmas chaves e senha de exemplo.</li>
@@ -269,23 +269,28 @@
     <li>Feito: roteiro com a Observação (4.1), o Carregar Pedido e o Cancelar Pedido, e as decisões de apagar e regravar os itens e de não usar <code>ON DELETE CASCADE</code>.</li>
     <li>Feito: roteiro com o Esc no item e o aviso ao fechar o sistema.</li>
     <li>Feito: resumo do topo atualizado (obrigatórios e bônus).</li>
-    <li>Falta: roteiro dos testes DUnitX.</li>
+    <li>Feito: seção 7 do README com os testes DUnitX (como compilar, rodar e o que cada teste garante).</li>
   </ul>
   <p class="commits"><code>28b4ff0</code> <code>767ab2a</code> <code>b2eb9de</code> <code>0600f25</code></p>
 </article>
 
-<article class="passo bonus">
-  <div class="topo"><h3>13. Testes DUnitX (bônus, por último)</h3><span class="selo bonus">Bônus pendente</span></div>
+<article class="passo feito">
+  <div class="topo"><h3>13. Testes DUnitX (bônus)</h3><span class="selo feito">Concluído</span></div>
   <ul>
-    <li>Testes da totalização do <code>TPedido</code>: somar itens, atualizar item, excluir item e pedido vazio.</li>
-    <li>Thiago digita, guiado passo a passo (primeiro contato com o DUnitX: projeto de testes, <code>[TestFixture]</code>, <code>[Test]</code>, <code>[Setup]</code>/<code>[TearDown]</code>, <code>Assert</code>).</li>
+    <li>Projeto separado <code>tests/PedidoVendaTestes.dproj</code> (Win64, saída em <code>tests/bin</code>, fora do Git), no grupo <code>PedidoVendaGrupo.groupproj</code> com o sistema. O exe do cliente não leva código de teste.</li>
+    <li>Só as units do Model entram no projeto de testes: a regra do total está no <code>TPedido</code>, então é testada sem banco e sem tela.</li>
+    <li>5 testes no <code>TTestePedido</code>: pedido vazio, total do item, soma dos itens, recalcular ao atualizar item e ao excluir item (imitando o que a tela faz: troca quantidade e valor no mesmo item; <code>Itens.Delete</code>).</li>
+    <li><code>[Setup]</code> cria e <code>[TearDown]</code> libera um pedido novo a cada teste (isolamento). O auxiliar <code>AdicionarItem</code> só faz <code>Add</code>: o <code>TObjectList</code> dono dos objetos libera os itens.</li>
+    <li><code>Assert.AreEqual&lt;Currency&gt;</code> com comparação exata (Currency é ponto fixo) e o padrão Arrange / Act / Assert.</li>
+    <li>Primeiro contato do Thiago com o DUnitX: ele digitou os testes, guiado passo a passo.</li>
   </ul>
+  <p class="commits"><code>23b8bb3</code> <code>b839a55</code> <code>c905a46</code> <code>a6efe54</code> <code>eec65ea</code> <code>9f219b2</code></p>
 </article>
 
 <article class="passo pendente">
   <div class="topo"><h3>14. Vídeos no YouTube</h3><span class="selo pendente">Pendente</span></div>
   <ul>
-    <li>Depois do passo 13 e do estudo do projeto. Os links entram na seção Vídeos, no topo do README.</li>
+    <li>Depois do estudo do projeto. Os links entram na seção Vídeos, no topo do README.</li>
     <li>1. Instalando e executando o sistema: Firebird, banco, <code>config.ini</code>, compilar e demonstração pelo roteiro (5 a 8 min, com o sistema funcionando nos primeiros 30 s).</li>
     <li>2. Arquitetura e código-fonte: camadas, total no Model, transação no Service, <code>RETURNING</code>, edição que regrava os itens, sem <code>ON DELETE CASCADE</code>, aviso ao fechar (10 a 15 min).</li>
     <li>3. Testes unitários com DUnitX: o que cada teste cobre, rodar, e um teste falhando de propósito (3 a 5 min).</li>
@@ -307,9 +312,9 @@
     <tr><td>4.1 Observação no cabeçalho</td><td><span class="selo feito">Feito</span></td><td><code>PEDIDO.OBSERVACAO</code>, <code>TPedido.Observacao</code></td></tr>
     <tr><td>4.2 Total recalculado ao excluir item</td><td><span class="selo feito">Feito</span></td><td><code>ExcluirItemSelecionado</code> → <code>ExibirItens</code></td></tr>
     <tr><td>5 INI dinâmico, queries parametrizadas, sem componentes de terceiros, <code>fbclient.dll</code> no <code>bin</code></td><td><span class="selo feito">Feito</span></td><td><code>Infra.*</code>, repositórios</td></tr>
-    <tr><td>6 README com banco, INI, execução e roteiro de testes</td><td><span class="selo feito">Feito</span></td><td><code>README.md</code> (completar com os bônus)</td></tr>
+    <tr><td>6 README com banco, INI, execução e roteiro de testes</td><td><span class="selo feito">Feito</span></td><td><code>README.md</code></td></tr>
     <tr><td>6 <code>config.ini.example</code></td><td><span class="selo feito">Feito</span></td><td>raiz do projeto</td></tr>
-    <tr><td>Bônus: Carregar Pedido e Cancelar Pedido (feitos), DUnitX</td><td><span class="selo bonus">Em andamento</span></td><td>passos 9, 10 e 13</td></tr>
+    <tr><td>Bônus: Carregar Pedido, Cancelar Pedido e testes DUnitX</td><td><span class="selo feito">Feito</span></td><td>passos 9, 10 e 13</td></tr>
   </tbody>
 </table>
 </div>

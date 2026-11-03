@@ -118,6 +118,28 @@ O `bin` já traz o `fbclient.dll` x64 e o runtime do Visual C++ que ele usa, ent
 
 > O número do pedido vem de uma sequence: é crescente, mas pode pular números quando uma gravação é desfeita (rollback), porque a sequence não volta atrás.
 
+## 7. Testes unitários (DUnitX)
+
+Os testes ficam num projeto separado, [`tests/PedidoVendaTestes.dproj`](tests/PedidoVendaTestes.dproj), que usa só as units do Model: não precisam de banco nem de tela. O `PedidoVendaGrupo.groupproj`, na raiz, abre os dois projetos juntos.
+
+1. Abra o `PedidoVendaGrupo.groupproj` (ou só o `tests\PedidoVendaTestes.dproj`) no Delphi 13, com a plataforma **Windows 64-bit**.
+2. Ative o **PedidoVendaTestes** e compile (Ctrl+F9). O executável é gerado em `tests\bin\PedidoVendaTestes.exe`, fora do `bin` do sistema.
+3. Na pasta do repositório, rode no PowerShell:
+
+   ```powershell
+   .\tests\bin\PedidoVendaTestes.exe
+   ```
+
+   O resultado aparece no console e também em `tests\bin\dunitx-results.xml` (formato NUnit, o que servidores de CI leem). Pela IDE (F9) a janela fecha ao terminar; para ela esperar o Enter, use **Run > Parameters** com `--exitbehavior:Pause`.
+
+| Teste | O que garante |
+|---|---|
+| `PedidoVazioDeveTerTotalZero` | Pedido sem itens tem total 0 |
+| `ItemDeveMultiplicarQuantidadePeloValorUnitario` | Total do item = quantidade × valor unitário |
+| `PedidoDeveSomarOTotalDosItens` | Total do pedido = soma dos itens |
+| `PedidoDeveRecalcularAoAtualizarItem` | Mudar quantidade e valor de um item muda o total |
+| `PedidoDeveRecalcularAoExcluirItem` | Excluir um item tira o valor dele do total (4.2) |
+
 ## Decisões técnicas
 
 - **Total sempre calculado no Model** (`TPedido.ValorTotal` soma os itens): a tela só exibe, então incluir, alterar ou excluir item nunca deixa o total errado.
@@ -128,6 +150,7 @@ O `bin` já traz o `fbclient.dll` x64 e o runtime do Visual C++ que ele usa, ent
 - **Índices das FKs** nomeados com `USING INDEX`, porque no Firebird a FK já cria o índice.
 - **Queries sempre parametrizadas**; o filtro da lista monta o `WHERE` conforme o que foi digitado, mas o valor vai sempre por parâmetro.
 - **Dinheiro** em `NUMERIC(15,2)` no banco e `Currency` no Delphi.
+- **Testes no Model:** como a regra do total está no `TPedido`, e não na tela, ela é testada sem banco e sem formulário. Cada teste recebe um pedido novo no `[Setup]`, liberado no `[TearDown]`; os itens são liberados junto, porque a lista é um `TObjectList` dono dos objetos.
 
 ## Sobre o uso de IA
 
