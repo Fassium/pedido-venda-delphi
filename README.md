@@ -10,9 +10,11 @@ O passo a passo da construção, com o que foi feito e o que falta em cada etapa
 
 [Playlist com os vídeos do projeto](https://www.youtube.com/playlist?list=PLSUAOf-LUkiI)
 
-1. **Instalando e executando o sistema** (Firebird, banco, `config.ini`, compilar e uma demonstração seguindo o roteiro): [assistir no YouTube](https://www.youtube.com/watch?v=LeIZvbhd8yk) (11 min)
-2. **Arquitetura e código-fonte** (as camadas e o porquê de cada decisão): link em breve
-3. **Testes unitários com DUnitX** (o que cada teste cobre e como rodar): link em breve
+1. **Instalando e executando o sistema** (Firebird, banco, `config.ini`, compilar e uma demonstração seguindo o roteiro): [assistir no YouTube](https://www.youtube.com/watch?v=Yc8g5iRHQpo)
+2. **Arquitetura e código-fonte** (as camadas e o porquê de cada decisão): [assistir no YouTube](https://www.youtube.com/watch?v=Mj81bPZZ9vU)
+3. **Testes unitários com DUnitX** (o que cada teste cobre, como rodar e CI/CD): [assistir no YouTube](https://www.youtube.com/watch?v=GPE18Y877t4)
+
+Páginas usadas nos vídeos, na pasta [`doc/`](doc) (para ver formatado, baixe e abra no navegador): [`arquitetura.html`](doc/arquitetura.html) (camadas e transação do Gravar), [`fluxo-de-entrega.html`](doc/fluxo-de-entrega.html) (do problema do usuário à produção, com CI/CD) e [`perguntas-e-respostas.html`](doc/perguntas-e-respostas.html).
 
 ## Requisitos
 

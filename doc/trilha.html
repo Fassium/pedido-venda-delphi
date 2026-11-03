@@ -101,14 +101,14 @@
 <header>
   <h1>Trilha do Pedido de Venda</h1>
   <p>Passo a passo da construção do projeto, o que já foi feito e o que falta, conforme o enunciado do teste técnico (Delphi + FireDAC + Firebird).</p>
-  <p class="autoria"><strong>Autor:</strong> Thiago Fassina · desenvolvido em <em>pair programming</em> com <strong>Claude Code</strong> (Anthropic) · atualizado em 02/11/2026</p>
+  <p class="autoria"><strong>Autor:</strong> Thiago Fassina · desenvolvido em <em>pair programming</em> com <strong>Claude Code</strong> (Anthropic) · atualizado em 03/11/2026</p>
 </header>
 
 <section class="resumo">
   <div class="numero"><strong>9 de 9</strong><span>passos obrigatórios concluídos</span></div>
   <div class="numero"><strong>3 de 3</strong><span>bônus concluídos</span></div>
-  <div class="numero"><strong>65</strong><span>commits pequenos</span></div>
-  <div class="numero"><strong>1 de 3</strong><span>vídeos publicados; faltam arquitetura e DUnitX</span></div>
+  <div class="numero"><strong>69</strong><span>commits pequenos</span></div>
+  <div class="numero"><strong>3 de 3</strong><span>vídeos publicados; projeto concluído</span></div>
 </section>
 <div class="barra" aria-label="9 de 9 passos obrigatórios concluídos"><div style="width: 100%"></div></div>
 
@@ -290,12 +290,14 @@
 </article>
 
 <article class="passo pendente">
-  <div class="topo"><h3>14. Vídeos no YouTube</h3><span class="selo pendente">Em andamento</span></div>
+  <div class="topo"><h3>14. Vídeos no YouTube</h3><span class="selo feito">Concluído</span></div>
   <ul>
     <li>Vídeos não listados (só com o link), reunidos numa <a href="https://www.youtube.com/playlist?list=PLSUAOf-LUkiI">playlist</a>. Os links ficam na seção Vídeos, no topo do README.</li>
-    <li>Feito: 1. <a href="https://www.youtube.com/watch?v=LeIZvbhd8yk">Instalando e executando o sistema</a> (11 min): Firebird instalado do zero, banco, <code>config.ini</code>, compilar e demonstração pelo roteiro, a partir do ZIP do GitHub.</li>
-    <li>Falta: 2. Arquitetura e código-fonte: camadas, total no Model, transação no Service, <code>RETURNING</code>, edição que regrava os itens, sem <code>ON DELETE CASCADE</code>, aviso ao fechar (10 a 15 min).</li>
-    <li>Falta: 3. Testes unitários com DUnitX: o que cada teste cobre, rodar, e um teste falhando de propósito (3 a 5 min).</li>
+    <li>Feito: 1. <a href="https://www.youtube.com/watch?v=Yc8g5iRHQpo">Instalando e executando o sistema</a>: Firebird instalado do zero, banco, <code>config.ini</code>, compilar e demonstração pelo roteiro, a partir do ZIP do GitHub.</li>
+    <li>Feito: 2. <a href="https://www.youtube.com/watch?v=Mj81bPZZ9vU">Arquitetura e código-fonte</a>: camadas, injeção de dependência, total no Model, transação no Service, <code>RETURNING</code> e fluxo de entrega com CI/CD.</li>
+    <li>Feito: 3. <a href="https://www.youtube.com/watch?v=GPE18Y877t4">Testes unitários com DUnitX</a>: projeto de testes, fixture, os 5 testes do total e o papel deles num pipeline de CI/CD.</li>
+    <li>Páginas de apoio criadas para os vídeos: <a href="arquitetura.html">arquitetura</a> (diagrama das camadas e da transação do Gravar) e <a href="fluxo-de-entrega.html">fluxo de entrega</a> (do problema do usuário à produção, com CI/CD e a importância dos testes automatizados).</li>
+    <li>Os três vídeos foram regravados em 03/11 e a playlist ganhou o nome "Pedido de Venda em Delphi 13 | MVC, FireDAC, Firebird 5 e DUnitX".</li>
   </ul>
 </article>
 
