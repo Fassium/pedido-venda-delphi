@@ -13,7 +13,9 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   {$ENDIF }
   DUnitX.TestFramework,
-  Teste.Pedido in 'Teste.Pedido.pas';
+  Teste.Pedido in 'Teste.Pedido.pas',
+  Model.Pedido in '..\src\pedidos\Model.Pedido.pas',
+  Model.PedidoItem in '..\src\pedidos\Model.PedidoItem.pas';
 
 { keep comment here to protect the following conditional from being removed by the IDE when adding a unit }
 {$IFNDEF TESTINSIGHT}
